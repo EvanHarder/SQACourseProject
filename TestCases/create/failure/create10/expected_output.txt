@@ -1,0 +1,14 @@
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Username: fullUser
+Status: FAILURE
+Message: Username already exists.
+Account Created: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

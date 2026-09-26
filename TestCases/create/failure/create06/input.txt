@@ -1,0 +1,8 @@
+transaction: login
+username: buyUser
+transaction: create
+transaction: logout
+transaction: login
+username: sellUser
+transaction: create
+transaction: logout

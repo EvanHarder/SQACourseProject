@@ -1,0 +1,34 @@
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Username: newbie
+Status: SUCCESS
+Message: User newbie created as full-standard.
+Account Created: Yes
+
+Amount: 100
+Status: FAILURE
+Message: Username not found.
+Credit Added: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
+
+Username: newbie
+Status: FAILURE
+Message: Username not found.
+Logged In: No
+
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

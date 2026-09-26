@@ -1,0 +1,8 @@
+transaction: login
+username: admin01
+transaction: create
+username: newSeller
+email: newseller@example.com
+password: Passw0rd1
+type: SS
+transaction: logout

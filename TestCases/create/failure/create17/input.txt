@@ -1,0 +1,16 @@
+transaction: login
+username: admin01
+transaction: create
+username: newbie
+email: newbie@example.com
+password: Passw0rd1
+type: FS
+transaction: addcredit
+amount: 100
+username: newbie
+transaction: logout
+transaction: login
+username: newbie
+transaction: login
+username: admin01
+transaction: logout

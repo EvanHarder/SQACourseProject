@@ -1,0 +1,10 @@
+transaction: login
+username: admin01
+transaction: create
+username: twin
+email: twin@example.com
+password: Passw0rd1
+type: FS
+transaction: create
+username: twin
+transaction: logout

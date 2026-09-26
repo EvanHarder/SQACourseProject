@@ -1,0 +1,6 @@
+transaction: login
+username: admin01
+transaction: create
+username: newUser
+email:
+transaction: logout

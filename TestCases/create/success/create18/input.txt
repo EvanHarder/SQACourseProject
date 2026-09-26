@@ -1,0 +1,8 @@
+transaction: login
+username: admin01
+transaction: create
+username: FULLUSER
+email: fulluser@example.com
+password: Passw0rd1
+type: FS
+transaction: logout
