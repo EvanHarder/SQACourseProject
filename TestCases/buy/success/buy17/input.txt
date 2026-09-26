@@ -1,0 +1,12 @@
+transaction: login
+username: fullUser
+transaction: buy
+game: Stardew Valley
+seller: sellUser
+transaction: buy
+game: Hollow Knight
+seller: sellUser
+transaction: buy
+game: Jane Game
+seller: Jane Doe
+transaction: logout

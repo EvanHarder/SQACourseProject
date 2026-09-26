@@ -1,0 +1,11 @@
+transaction: login
+username: buyUser
+transaction: buy
+game: Expensive Game
+seller: admin02
+transaction: addcredit
+amount: 600
+transaction: buy
+game: Expensive Game
+seller: admin02
+transaction: logout

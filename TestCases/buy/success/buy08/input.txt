@@ -1,0 +1,6 @@
+transaction: login
+username: poorUser
+transaction: buy
+game: Five Dollar Game
+seller: sellUser
+transaction: logout

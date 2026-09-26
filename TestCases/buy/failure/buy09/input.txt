@@ -1,0 +1,5 @@
+transaction: login
+username: buyUser
+transaction: buy
+game: Portal 2
+transaction: logout

@@ -1,0 +1,14 @@
+Username: sellUser
+Status: SUCCESS
+Message: Welcome sellUser. Account type: sell-standard. Credit: $100.00.
+Logged In: Yes
+
+Transaction: buy
+Status: FAILURE
+Message: Permission denied.
+Game Purchased: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

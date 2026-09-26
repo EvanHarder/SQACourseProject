@@ -1,0 +1,5 @@
+transaction: login
+username: fullUser
+transaction: buy
+game: stardew valley
+transaction: logout

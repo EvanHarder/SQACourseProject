@@ -1,0 +1,6 @@
+transaction: login
+username: poorUser
+transaction: buy
+game: Celeste
+seller: fullUser
+transaction: logout

@@ -1,0 +1,14 @@
+Username: poorUser
+Status: SUCCESS
+Message: Welcome poorUser. Account type: full-standard. Credit: $5.00.
+Logged In: Yes
+
+Game: Five Dollar Game
+Status: SUCCESS
+Message: Purchased Five Dollar Game from sellUser for $5.00. Remaining credit: $0.00.
+Game Purchased: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

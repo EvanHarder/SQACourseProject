@@ -1,0 +1,6 @@
+transaction: login
+username: buyUser
+transaction: buy
+game: Hollow Knight
+seller: sellUser
+transaction: logout

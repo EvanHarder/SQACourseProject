@@ -1,0 +1,5 @@
+transaction: login
+username: fullUser
+transaction: buy
+game: Nonexistent Game
+transaction: logout

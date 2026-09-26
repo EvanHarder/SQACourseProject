@@ -1,0 +1,14 @@
+Username: emptyUser
+Status: SUCCESS
+Message: Welcome emptyUser. Account type: buy-standard. Credit: $0.00.
+Logged In: Yes
+
+Game: Stardew Valley
+Status: FAILURE
+Message: Insufficient credit.
+Game Purchased: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

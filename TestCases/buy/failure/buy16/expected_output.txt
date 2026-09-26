@@ -1,0 +1,24 @@
+Username: buyUser
+Status: SUCCESS
+Message: Welcome buyUser. Account type: buy-standard. Credit: $500.00.
+Logged In: Yes
+
+Game: Expensive Game
+Status: FAILURE
+Message: Insufficient credit.
+Game Purchased: No
+
+Amount: 600
+Status: SUCCESS
+Message: Added $600.00 to buyUser. New credit: $1100.00.
+Credit Added: Yes
+
+Game: Expensive Game
+Status: SUCCESS
+Message: Purchased Expensive Game from admin02 for $999.99. Remaining credit: $100.01.
+Game Purchased: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
