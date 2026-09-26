@@ -1,0 +1,4 @@
+Portal 2                   buyUser        
+Celeste                    admin01        
+Hades                      buyUser        
+END                                       
