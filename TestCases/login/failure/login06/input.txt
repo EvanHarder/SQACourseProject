@@ -1,0 +1,11 @@
+transaction: logout
+transaction: create
+transaction: delete
+transaction: sell
+transaction: buy
+transaction: refund
+transaction: addcredit
+transaction: list
+transaction: login
+username: admin01
+transaction: logout

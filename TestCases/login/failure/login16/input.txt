@@ -1,0 +1,6 @@
+transaction: login
+username: fullUser
+transaction: create
+transaction: delete
+transaction: refund
+transaction: logout

@@ -1,0 +1,9 @@
+Username: maxName15chars1
+Status: SUCCESS
+Message: Welcome maxName15chars1. Account type: full-standard. Credit: $300.00.
+Logged In: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

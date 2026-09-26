@@ -1,0 +1,3 @@
+transaction: login
+username: maxName15chars1
+transaction: logout
