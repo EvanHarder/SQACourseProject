@@ -1,0 +1,6 @@
+transaction: login
+username: collins
+transaction: refund
+seller_username: rightUser
+amount: 20.00
+transaction: logout

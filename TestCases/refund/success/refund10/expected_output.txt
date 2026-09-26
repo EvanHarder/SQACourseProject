@@ -1,0 +1,14 @@
+Username: monty1
+Status: SUCCESS
+Message: Welcome monty1. Account type: full-standard. Credit: $15.75.
+Logged In: Yes
+
+Transaction: refund
+Status: SUCCESS
+Message: Credit transferred successfully. monty1 credit: $28.10. user7 credit: $48.05.
+Credit Transferred: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

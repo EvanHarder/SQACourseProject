@@ -1,0 +1,6 @@
+transaction: login
+username: walker
+transaction: refund
+seller_username: santos
+amount: 999.99
+transaction: logout

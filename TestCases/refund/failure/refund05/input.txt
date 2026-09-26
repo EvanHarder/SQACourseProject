@@ -1,0 +1,6 @@
+transaction: login
+username: flo3
+transaction: refund
+seller_username: mary
+amount: 43.00
+transaction: logout

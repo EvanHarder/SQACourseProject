@@ -1,0 +1,14 @@
+Username: flo3
+Status: SUCCESS
+Message: Welcome flo3. Account type: full-standard. Credit: $50.00.
+Logged In: Yes
+
+Transaction: refund
+Status: FAILURE
+Message: Refund amount cannot be negative.
+Credit Transferred: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

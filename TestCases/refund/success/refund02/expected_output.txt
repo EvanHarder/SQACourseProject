@@ -1,0 +1,14 @@
+Username: rory
+Status: SUCCESS
+Message: Welcome rory. Account type: full-standard. Credit: $10.00.
+Logged In: Yes
+
+Transaction: refund
+Status: SUCCESS
+Message: Credit transferred successfully. rory credit: $53.00. bailey credit: $0.00.
+Credit Transferred: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

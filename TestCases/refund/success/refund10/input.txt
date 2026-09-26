@@ -1,0 +1,6 @@
+transaction: login
+username: monty1
+transaction: refund
+seller_username: user7
+amount: 12.35
+transaction: logout

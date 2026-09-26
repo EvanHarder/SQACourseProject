@@ -1,0 +1,14 @@
+Username: walker
+Status: SUCCESS
+Message: Welcome walker. Account type: full-standard. Credit: $0.00.
+Logged In: Yes
+
+Transaction: refund
+Status: SUCCESS
+Message: Credit transferred successfully. walker credit: $999.99. santos credit: $999999.01.
+Credit Transferred: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

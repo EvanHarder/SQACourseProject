@@ -1,0 +1,9 @@
+transaction: login
+username: den
+transaction: refund
+seller_username: carter
+amount: 15.00
+transaction: refund
+seller_username: jack90
+amount: 10.00
+transaction: logout

@@ -1,0 +1,7 @@
+transaction: login
+username: admin
+transaction: refund
+buyer_username: john89
+seller_username: john89
+amount: 43.00
+transaction: logout

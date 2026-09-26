@@ -1,0 +1,14 @@
+Username: collins
+Status: SUCCESS
+Message: Welcome collins. Account type: full-standard. Credit: $30.00.
+Logged In: Yes
+
+Transaction: refund
+Status: SUCCESS
+Message: Credit transferred successfully. collins credit: $50.00. rightUser credit: $100.00.
+Credit Transferred: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

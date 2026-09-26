@@ -1,0 +1,6 @@
+transaction: login
+username: lazyUser
+transaction: refund
+seller_username: powell
+amount: 25.00
+transaction: logout

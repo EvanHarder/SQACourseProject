@@ -1,0 +1,6 @@
+transaction: login
+username: rortega
+transaction: refund
+seller_username: bailey
+amount: 43.00
+transaction: logout
