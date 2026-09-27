@@ -2,6 +2,5 @@ transaction: login
 username: admin01
 transaction: refund
 buyer: fullUser
-seller: sellUser
-amount: -10.00
+seller: ghost
 transaction: logout

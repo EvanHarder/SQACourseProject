@@ -1,12 +1,12 @@
-Username: admin02
+Username: admin01
 Status: SUCCESS
-Message: Welcome admin02. Account type: full-standard. Credit: $500.00.
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
 Logged In: Yes
 
-Transaction: refund
+Buyer: fullUser
 Status: FAILURE
-Message: Buyer and seller username do not exist.
-Credit Transferred: No
+Message: Invalid amount.
+Credit Refunded: No
 
 Transaction: logout
 Status: SUCCESS

@@ -3,9 +3,9 @@ Status: SUCCESS
 Message: Welcome admin01. Account type: admin. Credit: $5000.00.
 Logged In: Yes
 
-Buyer: fullUser
+Buyer: richUser
 Status: FAILURE
-Message: Buyer and seller must be different users.
+Message: Buyer credit would exceed 999999.00.
 Credit Refunded: No
 
 Transaction: logout

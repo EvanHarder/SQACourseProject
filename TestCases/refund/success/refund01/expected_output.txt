@@ -4,9 +4,9 @@ Message: Welcome admin01. Account type: admin. Credit: $5000.00.
 Logged In: Yes
 
 Buyer: fullUser
-Status: FAILURE
-Message: Buyer and seller must be different users.
-Credit Refunded: No
+Status: SUCCESS
+Message: Refunded $10.00 from sellUser to fullUser.
+Credit Refunded: Yes
 
 Transaction: logout
 Status: SUCCESS

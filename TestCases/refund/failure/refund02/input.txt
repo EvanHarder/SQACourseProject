@@ -1,0 +1,12 @@
+transaction: login
+username: fullUser
+transaction: refund
+transaction: logout
+transaction: login
+username: buyUser
+transaction: refund
+transaction: logout
+transaction: login
+username: sellUser
+transaction: refund
+transaction: logout

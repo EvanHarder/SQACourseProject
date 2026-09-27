@@ -1,6 +1,6 @@
 transaction: login
-username: flo3
+username: admin01
 transaction: refund
-seller_username: mary
-amount: 43.00
+buyer: fullUser
+seller: fullUser
 transaction: logout

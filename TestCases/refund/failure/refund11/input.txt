@@ -1,7 +1,7 @@
 transaction: login
 username: admin01
 transaction: refund
-buyer: fullUser
-seller: sellUser
-amount: -10.00
+buyer: richUser
+seller: fullUser
+amount: 600.00
 transaction: logout

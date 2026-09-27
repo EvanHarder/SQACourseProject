@@ -1,2 +1,0 @@
-00 lazyUser         FS 000000.00
-00 powell         SS 000075.00

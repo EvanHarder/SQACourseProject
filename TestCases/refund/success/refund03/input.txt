@@ -1,6 +1,0 @@
-transaction: login
-username: chen
-transaction: refund
-seller_username: amy
-amount: 5.00
-transaction: logout

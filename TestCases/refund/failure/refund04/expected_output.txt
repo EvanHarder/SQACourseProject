@@ -5,7 +5,7 @@ Logged In: Yes
 
 Buyer: fullUser
 Status: FAILURE
-Message: Buyer and seller must be different users.
+Message: Seller not found.
 Credit Refunded: No
 
 Transaction: logout

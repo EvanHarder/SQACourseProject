@@ -1,7 +1,7 @@
 transaction: login
-username: opUser
+username: admin01
 transaction: refund
-buyer_username: sam_y
-seller_username: lisa12
-amount: 43.00
+buyer: fullUser
+seller: sellUser
+amount: 1.005
 transaction: logout

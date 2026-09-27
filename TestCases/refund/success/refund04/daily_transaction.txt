@@ -1,2 +1,0 @@
-00 walker         FS 000000.00
-00 santos         SS 999999.00

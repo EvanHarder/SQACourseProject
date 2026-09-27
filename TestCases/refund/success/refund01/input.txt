@@ -3,5 +3,5 @@ username: admin01
 transaction: refund
 buyer: fullUser
 seller: sellUser
-amount: -10.00
+amount: 10.00
 transaction: logout
