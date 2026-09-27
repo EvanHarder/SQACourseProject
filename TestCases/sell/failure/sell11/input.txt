@@ -1,6 +1,8 @@
 transaction: login
-username: myUser4
+username: fullUser
 transaction: sell
-game_name: FreebieGame
-price: -5.00
+game: Double Game
+price: 10.00
+transaction: sell
+game: Double Game
 transaction: logout

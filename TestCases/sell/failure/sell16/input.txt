@@ -1,5 +1,6 @@
 transaction: login
 username: fullUser
 transaction: sell
-game: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+game: Decimal Game
+price: 15.999
 transaction: logout

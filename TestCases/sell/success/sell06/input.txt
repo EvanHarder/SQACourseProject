@@ -1,6 +1,0 @@
-transaction: login
-username: randomUser
-transaction: sell
-game_name: ExactlyTwentyFiveCharsMax
-price: 10.00
-transaction: logout

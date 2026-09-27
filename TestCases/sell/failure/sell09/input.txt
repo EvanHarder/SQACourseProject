@@ -1,5 +1,5 @@
 transaction: login
 username: fullUser
 transaction: sell
-game: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+game:
 transaction: logout

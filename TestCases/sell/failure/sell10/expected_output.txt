@@ -3,10 +3,10 @@ Status: SUCCESS
 Message: Welcome fullUser. Account type: full-standard. Credit: $2000.00.
 Logged In: Yes
 
-Game: New Game
-Status: SUCCESS
-Message: New Game is now for sale at $19.99.
-Game Listed For Sale: Yes
+Game: Celeste
+Status: FAILURE
+Message: Game name already exists.
+Game Listed For Sale: No
 
 Transaction: logout
 Status: SUCCESS

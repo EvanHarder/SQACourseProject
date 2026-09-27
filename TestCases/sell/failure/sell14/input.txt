@@ -1,6 +1,0 @@
-transaction: login
-username: myUser4
-transaction: sell
-game_name: ThisGameNameIsWayTooLongForTheSystemButSeriouslyItsTooLong
-price: 8.00
-transaction: logout

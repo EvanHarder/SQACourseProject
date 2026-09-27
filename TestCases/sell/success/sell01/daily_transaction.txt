@@ -1,1 +1,2 @@
-00 userName9          SS 000000.00
+03 New Game                  fullUser        019.99
+00 fullUser        FS 002000.00

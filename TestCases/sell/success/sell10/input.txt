@@ -1,6 +1,0 @@
-transaction: login
-username: wanderer1000
-transaction: sell
-game_name: Lantern Right
-price: 24.99
-transaction: logout

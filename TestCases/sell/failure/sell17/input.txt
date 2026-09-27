@@ -1,5 +1,6 @@
 transaction: login
 username: fullUser
 transaction: sell
-game: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+game: Dollar Sign Game
+price: $15.00
 transaction: logout

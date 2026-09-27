@@ -1,6 +1,0 @@
-transaction: login
-username: expensiveSeller
-transaction: sell
-game_name: TopTierGame
-price: 999.99
-transaction: logout

@@ -1,6 +1,6 @@
 transaction: login
-username: userName9
+username: fullUser
 transaction: sell
-game_name: Timmy's World
-price: 12.00
+game: New Game
+price: 19.99
 transaction: logout

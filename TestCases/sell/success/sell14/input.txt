@@ -1,5 +1,6 @@
 transaction: login
 username: fullUser
 transaction: sell
-game: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+game: Free Game
+price: 0.00
 transaction: logout

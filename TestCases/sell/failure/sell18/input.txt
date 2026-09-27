@@ -1,0 +1,8 @@
+transaction: login
+username: admin01
+transaction: sell
+game: Fresh Game
+price: 10.00
+transaction: buy
+game: Fresh Game
+transaction: logout

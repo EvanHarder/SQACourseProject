@@ -1,12 +1,12 @@
-Username: wanderer1000
+Username: fullUser
 Status: SUCCESS
-Message: Welcome wanderer1000. Account type: sell-standard. Credit: $0.00.
+Message: Welcome fullUser. Account type: full-standard. Credit: $2000.00.
 Logged In: Yes
 
-Transaction: sell
+Game: Whole Dollar Game
 Status: SUCCESS
-Message: Game is now able to be sold.
-Game Listed: Yes
+Message: Whole Dollar Game is now for sale at $15.00.
+Game Listed For Sale: Yes
 
 Transaction: logout
 Status: SUCCESS

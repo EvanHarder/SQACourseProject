@@ -1,5 +1,6 @@
 transaction: login
-username: fullUser
+username: admin01
 transaction: sell
-game: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+game: Admin Game
+price: 40.00
 transaction: logout
