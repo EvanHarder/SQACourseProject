@@ -1,0 +1,24 @@
+Username: fullUser
+Status: SUCCESS
+Message: Welcome fullUser. Account type: full-standard. Credit: $2000.00.
+Logged In: Yes
+
+Amount: 100
+Status: SUCCESS
+Message: Added $100.00 to fullUser. New credit: $2100.00.
+Credit Added: Yes
+
+Game: Space Game
+Status: SUCCESS
+Message: Space Game is now for sale at $12.50.
+Game Listed For Sale: Yes
+
+Game: Stardew Valley
+Status: SUCCESS
+Message: Purchased Stardew Valley from sellUser for $15.00. Remaining credit: $2085.00.
+Game Purchased: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

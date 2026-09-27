@@ -1,0 +1,11 @@
+transaction: login
+username: fullUser
+transaction: addcredit
+amount: 100
+transaction: sell
+game: Space Game
+price: 12.50
+transaction: buy
+game: Stardew Valley
+seller: sellUser
+transaction: logout

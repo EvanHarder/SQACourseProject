@@ -1,0 +1,4 @@
+transaction: login
+username: sellUser
+transaction: list
+transaction: logout

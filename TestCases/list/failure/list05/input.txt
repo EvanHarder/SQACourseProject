@@ -1,0 +1,4 @@
+transaction: list
+transaction: login
+username: fullUser
+transaction: logout

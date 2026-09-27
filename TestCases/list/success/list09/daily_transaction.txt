@@ -1,0 +1,6 @@
+02 sellUser        SS 000100.00
+02 fullUser        FS 002000.00
+02 richUser        FS 999500.00
+02 Jane Doe        FS 000250.00
+02 admin02         AA 001000.00
+00 admin01         AA 005000.00

@@ -1,0 +1,7 @@
+transaction: login
+username: fullUser
+transaction: sell
+game: Brand New Game
+price: 10.00
+transaction: list
+transaction: logout

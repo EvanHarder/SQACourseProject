@@ -1,0 +1,14 @@
+transaction: login
+username: admin01
+transaction: delete
+username: sellUser
+transaction: delete
+username: fullUser
+transaction: delete
+username: richUser
+transaction: delete
+username: Jane Doe
+transaction: delete
+username: admin02
+transaction: list
+transaction: logout

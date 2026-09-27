@@ -1,0 +1,25 @@
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Username: sellUser
+Status: SUCCESS
+Message: User sellUser deleted. Their games are no longer for sale.
+Account Deleted: Yes
+
+Transaction: list
+Status: SUCCESS
+Message: 6 games available for sale.
+Game: Celeste | Seller: fullUser | Price: $25.00
+Game: Hades | Seller: fullUser | Price: $30.00
+Game: Expensive Game | Seller: admin02 | Price: $999.99
+Game: Twenty Five Char Game ABC | Seller: admin02 | Price: $1.00
+Game: Rich Game | Seller: richUser | Price: $600.00
+Game: Jane Game | Seller: Jane Doe | Price: $10.00
+Games Listed: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

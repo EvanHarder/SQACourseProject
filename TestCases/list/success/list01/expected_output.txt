@@ -1,0 +1,24 @@
+Username: fullUser
+Status: SUCCESS
+Message: Welcome fullUser. Account type: full-standard. Credit: $2000.00.
+Logged In: Yes
+
+Transaction: list
+Status: SUCCESS
+Message: 10 games available for sale.
+Game: Stardew Valley | Seller: sellUser | Price: $15.00
+Game: Hollow Knight | Seller: sellUser | Price: $20.00
+Game: Portal 2 | Seller: sellUser | Price: $9.99
+Game: Five Dollar Game | Seller: sellUser | Price: $5.00
+Game: Celeste | Seller: fullUser | Price: $25.00
+Game: Hades | Seller: fullUser | Price: $30.00
+Game: Expensive Game | Seller: admin02 | Price: $999.99
+Game: Twenty Five Char Game ABC | Seller: admin02 | Price: $1.00
+Game: Rich Game | Seller: richUser | Price: $600.00
+Game: Jane Game | Seller: Jane Doe | Price: $10.00
+Games Listed: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
