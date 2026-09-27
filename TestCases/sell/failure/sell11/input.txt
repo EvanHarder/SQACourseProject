@@ -1,0 +1,6 @@
+transaction: login
+username: myUser4
+transaction: sell
+game_name: FreebieGame
+price: -5.00
+transaction: logout

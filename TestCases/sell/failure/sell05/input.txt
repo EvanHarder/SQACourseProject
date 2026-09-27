@@ -1,0 +1,6 @@
+transaction: login
+username: myUser4
+transaction: sell
+game_name: ExpensiveGame
+price: 1000.00
+transaction: logout

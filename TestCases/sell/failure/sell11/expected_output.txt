@@ -1,0 +1,14 @@
+Username: myUser4
+Status: SUCCESS
+Message: Welcome myUser4. Account type: sell-standard. Credit: $0.00.
+Logged In: Yes
+
+Transaction: sell
+Status: FAILURE
+Message: Game price cannot be negative.
+Game Listed: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

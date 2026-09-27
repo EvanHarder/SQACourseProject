@@ -1,0 +1,4 @@
+Transaction: sell
+Status: FAILURE
+Message: You must be logged in to perform this transaction.
+Game Listed: No

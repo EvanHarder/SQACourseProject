@@ -1,0 +1,14 @@
+Username: randomUser
+Status: SUCCESS
+Message: Welcome randomUser. Account type: sell-standard. Credit: $0.00.
+Logged In: Yes
+
+Transaction: sell
+Status: SUCCESS
+Message: Game is now able to be sold.
+Game Listed: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

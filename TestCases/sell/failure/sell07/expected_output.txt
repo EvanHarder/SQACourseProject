@@ -1,0 +1,14 @@
+Username: buyerOnly
+Status: SUCCESS
+Message: Welcome buyerOnly. Account type: buy-standard. Credit: $100.00.
+Logged In: Yes
+
+Transaction: sell
+Status: FAILURE
+Message: Permission denied.
+Game Listed: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

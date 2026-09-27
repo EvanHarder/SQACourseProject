@@ -1,0 +1,14 @@
+Username: pomeranian
+Status: SUCCESS
+Message: Welcome pomeranian. Account type: full-standard. Credit: $40.00.
+Logged In: Yes
+
+Transaction: sell
+Status: SUCCESS
+Message: Game is now able to be sold.
+Game Listed: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

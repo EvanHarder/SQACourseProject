@@ -1,0 +1,6 @@
+transaction: login
+username: koko3
+transaction: sell
+game_name: Go
+price: 3.00
+transaction: logout

@@ -1,0 +1,14 @@
+Username: userName9
+Status: SUCCESS
+Message: Welcome userName9. Account type: sell-standard. Credit: $0.00.
+Logged In: Yes
+
+Transaction: sell
+Status: FAILURE
+Message: Game name is too long.
+Game Listed: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

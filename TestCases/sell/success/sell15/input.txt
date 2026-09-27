@@ -1,0 +1,6 @@
+transaction: login
+username: wanderer1000
+transaction: sell
+game_name: Penny Fight
+price: 0.01
+transaction: logout
