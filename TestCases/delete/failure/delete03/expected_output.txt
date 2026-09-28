@@ -1,0 +1,3 @@
+VALID, User deleted
+
+INVALID, User does not exist

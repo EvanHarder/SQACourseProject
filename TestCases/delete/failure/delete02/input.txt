@@ -1,0 +1,3 @@
+IsAdmin: True
+Username: ExistingUser12
+Active Dependency: User has pending financial transactions or owns a critical resource
