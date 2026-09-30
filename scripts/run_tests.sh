@@ -3,9 +3,9 @@
 #
 # Usage:   ./scripts/run_tests.sh <path-to-frontend-executable> [feature]
 # Example: ./scripts/run_tests.sh ./frontend            (all features)
-#          ./scripts/run_tests.sh ./frontend buy        (only tests/buy)
+#          ./scripts/run_tests.sh ./frontend buy        (only TestCases/buy)
 #
-# Test layout:  tests/<feature>/<success|failure>/<test>/
+# Test layout:  TestCases/<feature>/<success|failure>/<test>/   (data files in TestCases/data/)
 #                   input.txt              transaction stream (standard input)
 #                   expected_output.txt    expected terminal output
 #                   daily_transaction.txt  expected daily transaction file (empty = no file written)
@@ -22,8 +22,12 @@ fi
 FE="$(cd "$(dirname "$FE")" && pwd)/$(basename "$FE")"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DATA="$ROOT/data"
-TESTS="$ROOT/tests"
+TESTS="$ROOT/TestCases"
+DATA="$TESTS/data"
+if [ ! -d "$TESTS" ] || [ ! -f "$DATA/current_user_accounts.txt" ]; then
+    echo "Cannot find $TESTS or $DATA/current_user_accounts.txt"
+    exit 1
+fi
 RUN_ID="run_$(date +%Y%m%d_%H%M%S)"
 RUN="$ROOT/results/$RUN_ID"
 REPORT="$RUN/report.txt"
@@ -41,6 +45,7 @@ FAIL=0
 for TEST_DIR in "$TESTS"/*/*/*/; do
     REL="${TEST_DIR#$TESTS/}"; REL="${REL%/}"          # e.g. create/failure/create10
     FEATURE="${REL%%/*}"
+    [ "$FEATURE" = "data" ] && continue
     if [ -n "$ONLY" ] && [ "$FEATURE" != "$ONLY" ]; then
         continue
     fi

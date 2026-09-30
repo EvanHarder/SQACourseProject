@@ -1,7 +1,7 @@
 @echo off
 REM run_tests.bat - Windows version of run_tests.sh
 REM Usage:   scripts\run_tests.bat <path-to-frontend.exe>
-REM Layout:  tests\<feature>\<success|failure>\<test>\input.txt, expected_output.txt, daily_transaction.txt
+REM Layout:  TestCases\<feature>\<success|failure>\<test>\input.txt, expected_output.txt, daily_transaction.txt
 REM Front End command line: frontend.exe <accounts> <games> <collection> <daily_transaction_file>
 setlocal enabledelayedexpansion
 
@@ -11,8 +11,12 @@ if "%~1"=="" (
 )
 set FE=%~f1
 set ROOT=%~dp0..
-set DATA=%ROOT%\data
-set TESTS=%ROOT%\tests
+set TESTS=%ROOT%\TestCases
+set DATA=%TESTS%\data
+if not exist "%DATA%\current_user_accounts.txt" (
+    echo Cannot find %DATA%\current_user_accounts.txt
+    exit /b 1
+)
 for /f "tokens=1-3 delims=/:. " %%a in ("%time: =0%") do set T=%%a%%b%%c
 for /f "tokens=1-3 delims=/-. " %%a in ("%date:~-10%") do set D=%%c%%a%%b
 set RUN=%ROOT%\results\run_%D%_%T%
@@ -22,7 +26,7 @@ set FAIL=0
 mkdir "%RUN%"
 echo Front End requirements test run: run_%D%_%T% > "%REPORT%"
 
-for /d %%F in ("%TESTS%\*") do (
+for /d %%F in ("%TESTS%\*") do if /i not "%%~nxF"=="data" (
     for /d %%O in ("%%F\*") do (
         for /d %%T in ("%%O\*") do (
             set REL=%%~nxF\%%~nxO\%%~nxT
