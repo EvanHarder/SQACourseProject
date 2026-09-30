@@ -1,0 +1,5 @@
+transaction: login
+username: sellUser
+transaction: addcredit
+amount: 10
+transaction: logout

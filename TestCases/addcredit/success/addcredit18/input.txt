@@ -1,0 +1,10 @@
+transaction: login
+username: fullUser
+transaction: addcredit
+amount: 1000
+transaction: logout
+transaction: login
+username: fullUser
+transaction: addcredit
+amount: 1000
+transaction: logout

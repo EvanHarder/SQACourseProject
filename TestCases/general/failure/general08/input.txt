@@ -1,0 +1,10 @@
+transaction: login
+username: admin01
+transaction: create
+username: 12345
+email: 12345@example.com
+password: Passw0rd1
+type: 99
+transaction: addcredit
+amount: fullUser
+transaction: logout

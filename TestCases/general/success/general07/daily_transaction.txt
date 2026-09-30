@@ -1,0 +1,7 @@
+01 teamUser        SS 000000.00
+02 poorUser        FS 000005.00
+03 Team Game                 admin01         030.00
+04 Hollow Knight             sellUser        admin01         020.00
+05 buyUser         sellUser        000005.00
+06 fullUser        FS 000250.00
+00 admin01         AA 004980.00

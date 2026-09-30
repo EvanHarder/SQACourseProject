@@ -1,0 +1,16 @@
+transaction: login
+username: admin01
+transaction: create
+username: fullUser
+transaction: delete
+username: ghost
+transaction: sell
+game: Celeste
+transaction: buy
+game: Nope
+transaction: refund
+buyer: ghost
+transaction: addcredit
+amount: 5000
+username: admin01
+transaction: logout

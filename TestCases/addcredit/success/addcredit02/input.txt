@@ -1,0 +1,6 @@
+transaction: login
+username: admin01
+transaction: addcredit
+amount: 200.00
+username: buyUser
+transaction: logout

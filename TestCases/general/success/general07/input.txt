@@ -1,0 +1,24 @@
+transaction: login
+username: admin01
+transaction: create
+username: teamUser
+email: teamuser@example.com
+password: Passw0rd1
+type: SS
+transaction: delete
+username: poorUser
+transaction: sell
+game: Team Game
+price: 30.00
+transaction: buy
+game: Hollow Knight
+seller: sellUser
+transaction: refund
+buyer: buyUser
+seller: sellUser
+amount: 5.00
+transaction: addcredit
+amount: 250
+username: fullUser
+transaction: list
+transaction: logout

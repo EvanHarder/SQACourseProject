@@ -1,0 +1,7 @@
+transaction: login
+username: richUser
+transaction: addcredit
+amount: 500
+transaction: addcredit
+amount: 499
+transaction: logout

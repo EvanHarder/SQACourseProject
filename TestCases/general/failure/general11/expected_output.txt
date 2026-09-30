@@ -1,0 +1,14 @@
+Line: login
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Username: fullUser
+Status: SUCCESS
+Message: Welcome fullUser. Account type: full-standard. Credit: $2000.00.
+Logged In: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

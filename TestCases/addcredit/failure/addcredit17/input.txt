@@ -1,0 +1,5 @@
+transaction: login
+username: fullUser
+transaction: addcredit
+amount: 10.555
+transaction: logout

@@ -1,0 +1,2 @@
+06 fullUser        FS 000700.00
+00 admin01         AA 005000.00
