@@ -3,10 +3,15 @@ Status: SUCCESS
 Message: Welcome admin01. Account type: admin. Credit: $5000.00.
 Logged In: Yes
 
-Username: ghost
+Username: sellUser
+Status: SUCCESS
+Message: User sellUser deleted. Their games are no longer for sale.
+Account Deleted: Yes
+
+Game: Stardew Valley
 Status: FAILURE
-Message: Username not found.
-Account Deleted: No
+Message: Game not found.
+Game Purchased: No
 
 Transaction: logout
 Status: SUCCESS

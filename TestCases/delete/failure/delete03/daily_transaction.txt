@@ -1,1 +1,3 @@
-02 ExistingUser12 FS 0
+00 fullUser        FS 002000.00
+00 buyUser         BS 000500.00
+00 sellUser        SS 000100.00

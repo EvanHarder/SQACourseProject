@@ -1,1 +1,14 @@
-INVALID, USER DELETION FAILED — USERNAME REQUIRED
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Username: admin01
+Status: FAILURE
+Message: Cannot delete the current user.
+Account Deleted: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

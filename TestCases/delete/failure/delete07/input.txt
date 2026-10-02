@@ -1,5 +1,7 @@
 transaction: login
 username: admin01
 transaction: delete
-username: admin01
+username: sellUser
+transaction: buy
+game: Stardew Valley
 transaction: logout

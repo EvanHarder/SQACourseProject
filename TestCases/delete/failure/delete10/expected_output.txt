@@ -3,10 +3,15 @@ Status: SUCCESS
 Message: Welcome admin01. Account type: admin. Credit: $5000.00.
 Logged In: Yes
 
-Username: ghost
+Username: poorUser
+Status: SUCCESS
+Message: User poorUser deleted. Their games are no longer for sale.
+Account Deleted: Yes
+
+Username: poorUser
 Status: FAILURE
-Message: Username not found.
-Account Deleted: No
+Message: Username already exists.
+Account Created: No
 
 Transaction: logout
 Status: SUCCESS

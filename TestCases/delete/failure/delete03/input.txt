@@ -1,5 +1,12 @@
-IsAdmin: True
-Username: ExistingUser12
-
-IsAdmin: True
-Username: ExistingUser12
+transaction: login
+username: fullUser
+transaction: delete
+transaction: logout
+transaction: login
+username: buyUser
+transaction: delete
+transaction: logout
+transaction: login
+username: sellUser
+transaction: delete
+transaction: logout

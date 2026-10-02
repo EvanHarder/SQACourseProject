@@ -1,5 +1,7 @@
 transaction: login
 username: admin01
 transaction: delete
-username: admin01
+username: poorUser
+transaction: delete
+username: poorUser
 transaction: logout

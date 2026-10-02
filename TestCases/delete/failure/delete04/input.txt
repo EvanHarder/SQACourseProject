@@ -1,2 +1,5 @@
-IsAdmin: False
-Username: ExistingUser12
+transaction: login
+username: admin01
+transaction: delete
+username: ghost
+transaction: logout

@@ -1,0 +1,10 @@
+transaction: login
+username: admin01
+transaction: delete
+username: buyUser
+transaction: refund
+buyer: buyUser
+transaction: addcredit
+amount: 10
+username: buyUser
+transaction: logout
