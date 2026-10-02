@@ -1,2 +1,0 @@
-Prompt: Are there any test cases for deletion that we missed?
-Result: Active Dependencies — attempting to delete a user while they have a pending payment.
