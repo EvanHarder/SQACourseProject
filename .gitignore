@@ -1,0 +1,8 @@
+# compiled Front End
+frontend
+frontend.exe
+*.o
+# test run output (results/results.txt stays tracked)
+results/run_*/
+results/latest
+daily_transaction.txt
