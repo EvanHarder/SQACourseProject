@@ -3,8 +3,6 @@
  *
  * Implementation of the InputReader class: reads "label: value" lines from the
  * transaction stream. See InputReader.h for the description of each method.
- *
- * Owner: Member B
  */
 
 #include "io/InputReader.h"

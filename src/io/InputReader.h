@@ -8,8 +8,6 @@
  *
  * Every line of the input stream has the form   label: value
  * for example   transaction: login   or   username: admin01
- *
- * Owner: Member B
  */
 
 #ifndef INPUT_READER_H
