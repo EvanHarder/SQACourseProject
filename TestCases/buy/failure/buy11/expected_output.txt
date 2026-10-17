@@ -11,4 +11,4 @@ Game Purchased: No
 Transaction: logout
 Status: SUCCESS
 Message: Logout successful. Session transactions saved.
-Logged Out: Yesa
+Logged Out: Yes
