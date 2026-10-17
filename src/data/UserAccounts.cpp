@@ -1,4 +1,5 @@
 #include "UserAccounts.h"
+#include "FormatUtils.h"
 #include <fstream>
 #include <sstream>
 
@@ -26,8 +27,12 @@ bool UserAccounts::saveToFile() {
     if (!file.is_open()) return false;
 
     for (const auto& user : users) {
-        file << user.username << " " << user.balance << "\n";
+    std::string pUser = FormatUtils::padText(user.username, 16);
+    std::string pPermissions = FormatUtils::padText(user.permissions, 3);
+    std::string pBalance = FormatUtils::moneyToText(user.balance, 9);
+    file << pUser << pPermissions << pBalance << "\n";
     }
+    
     return true;
 }
 

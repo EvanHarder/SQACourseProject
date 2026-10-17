@@ -1,4 +1,5 @@
 #include "GameCollection.h"
+#include "FormatUtils.h"
 #include <fstream>
 #include <sstream>
 
@@ -19,6 +20,29 @@ bool GameCollection::loadFromFile() {
             userGames[username].push_back(gameName);
         }
     }
+    return true;
+}
+
+bool GameCollection::saveToFile() {
+    std::ofstream file(filename, std::ios::trunc);
+    if (!file.is_open()) return false;
+
+    for (const auto& entry : userGames) {
+        const std::string& username = entry.first;
+        const std::vector<std::string>& gamesList = entry.second;
+
+        std::string pUser = FormatUtils::padText(username, 15);
+
+        
+        for (const auto& gameTitle : gamesList) {
+            
+            std::string pGame = FormatUtils::padText(gameTitle, 26);
+
+            
+            file << pGame << pUser << "\n";
+        }
+    }
+
     return true;
 }
 

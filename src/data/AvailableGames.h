@@ -6,7 +6,7 @@
 #include <vector>
 
 struct Game {
-    std::string id;
+    std::string seller;
     std::string name;
     double price;
 };
@@ -20,6 +20,7 @@ public:
     explicit AvailableGames(std::string gamesFilename);
     //Loads into the getAllGames getter
     bool loadFromFile();
+    bool saveToFile();
     //Search
     const Game* findGameByName(const std::string& name) const;
     const std::vector<Game>& getAllGames() const;

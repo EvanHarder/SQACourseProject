@@ -17,6 +17,8 @@ public:
     
     //Loads from a text file into the hashmap userGames
     bool loadFromFile();
+    bool saveToFile();
+    
     bool userOwnsGame(const std::string& username, const std::string& gameName) const;
     void addGameToUser(const std::string& username, const std::string& gameName);
 };

@@ -2,7 +2,6 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-#include <cmath>
 
 std::string FormatUtils::padText(const std::string& text, size_t width) {
     //Trims down text
