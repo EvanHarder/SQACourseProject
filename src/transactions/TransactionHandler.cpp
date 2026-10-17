@@ -124,14 +124,18 @@ TransactionHandler::TransactionHandler(
     InputReader& reader,
     ResultPrinter& printer,
     Session& currentSession
-    //, UserAccounts& accounts
-    //, AvailableGames& games
+    //UserAccounts& accounts,
+    //AvailableGames& games,
+    //GameCollection& collection
+    //, TransactionLog& log
     )
     : inputReader(reader),
       resultPrinter(printer),
       session(currentSession)
-      // , userAccounts(accounts)
-      // , availableGames(games)
+      //userAccounts(accounts),
+      //availableGames(games),
+      //gameCollection(collection)
+      // , transactionLog(log)
 {
 }
 
@@ -231,8 +235,11 @@ bool TransactionHandler::isPermitted(const std::string& transactionCode) const {
 
 // Transaction Logic
 
+// Handles the login transaction: rejects a second login, loads the data files,
+// asks for a username, checks it exists and starts the session.
 void TransactionHandler::handleLogin() {
 
+    // Rule: no subsequent login until after a logout.
     if (session.isLoggedIn()) {
         resultPrinter.printResult(
             "Transaction", "login", false,
@@ -240,13 +247,15 @@ void TransactionHandler::handleLogin() {
         return;
     }
 
-    // if (!userAccounts.load()) {
+    // Rule: the current user accounts file is read before login is processed.
+    // if (!userAccounts.loadFromFile()) {
     //     resultPrinter.printResult(
     //         "Transaction", "login", false,
     //         "Could not read the user accounts file.", outcomeLabelFor("login"));
     //     return;
     // }
 
+    // Rule: ask for the username.
     std::string username;
     ReadStatus status = inputReader.readField("username", username);
 
@@ -263,7 +272,8 @@ void TransactionHandler::handleLogin() {
         return;
     }
 
-    // const User* user = userAccounts.findUser(username);
+    // The username must belong to an existing account.
+    // User* user = userAccounts.findUser(username);
     // if (user == nullptr) {
     //     resultPrinter.printResult(
     //         "Username", username, false,
@@ -271,19 +281,33 @@ void TransactionHandler::handleLogin() {
     //     return;
     // }
 
-    // if (!availableGames.load()) {
+    // Rule: once the username is accepted, read the available games file.
+    // The collection file is read too, because buy must check what the user owns.
+    // if (!availableGames.loadFromFile() || !gameCollection.loadFromFile()) {
     //     resultPrinter.printResult(
     //         "Username", username, false,
-    //         "Could not read the available games file.", outcomeLabelFor("login"));
+    //         "Could not read the games files.", outcomeLabelFor("login"));
     //     return;
     // }
 
-    // session.start(user->getUsername(), user->getType());
+    // Start accepting transactions; the type code (AA, FS, BS, SS) sets privileges.
+    // session.start(user->username, user->permissions);
 
     // resultPrinter.printResult(
     //     "Username", username, true,
-    //     "Login successful.", outcomeLabelFor("login"));
+    //     "Welcome " + user->username + ". Account type: " +
+    //     typeNameFor(user->permissions) + ". Credit: $" +
+    //     formatMoney(user->balance) + ".",
+    //     outcomeLabelFor("login"));
 
+    // TEMPORARY: lets you test the other transactions before the data classes
+    // are connected. Treats every username as an admin. Delete these lines
+    // when you uncomment the block above.
+    
+    session.start(username, "AA");
+    resultPrinter.printResult(
+        "Username", username, true,
+        "Login successful.", outcomeLabelFor("login"));
 }
 
 void TransactionHandler::handleLogout() {
@@ -296,13 +320,14 @@ void TransactionHandler::handleLogout() {
 
     std::string username = session.getUsername();
 
-    // write out the daily transaction file
-    // const User* user = userAccounts.findUser(username);
+    // Write out the daily transaction file.
+    // User* user = userAccounts.findUser(username);
 
+    // TODO: needs Evan's TransactionLog to support the 00 end-of-session line.
     // transactionLog.recordEndOfSession(
-    //     username, session.getUserType(), user->getCredit());
+    //     username, session.getUserType(), user->balance);
     //
-    // if (!transactionLog.writeToFile()) {
+    // if (!transactionLog.outputTransactions()) {
     //     resultPrinter.printResult(
     //         "Username", username, false,
     //         "Could not write the daily transaction file.", outcomeLabelFor("logout"));
@@ -437,8 +462,9 @@ void TransactionHandler::handleDelete() {
 
     // Rule: the username must be the name of an existing user. A user already
     // deleted earlier in this session no longer counts as existing.
-    // const User* user = userAccounts.findUser(targetUsername);
-    // if (user == nullptr || session.isDeleted(targetUsername)) {
+
+    // User* user = userAccounts.findUser(targetUsername);
+    // if (user == nullptr /* || session.isDeleted(targetUsername) */) {
     //     resultPrinter.printResult(
     //         "Username", targetUsername, false,
     //         "No such user exists.", outcomeLabelFor("delete"));
@@ -446,8 +472,8 @@ void TransactionHandler::handleDelete() {
     // }
 
     // Copy the details the log line needs BEFORE the account is removed.
-    // std::string deletedType = user->getType();
-    // double deletedCredit = user->getCredit();
+    // std::string deletedType = user->permissions;
+    // double deletedCredit = user->balance;
 
     // Rule: cancel any games the user has for sale.
     // availableGames.removeGamesBySeller(targetUsername);
@@ -507,7 +533,7 @@ void TransactionHandler::handleSell() {
 
     // Rule: all games must have unique names. "END" is also refused because
     // it marks the end of the available games file.
-    // if (gameName == "END" || availableGames.findGame(gameName) != nullptr) {
+    // if (gameName == "END" || availableGames.findGameByName(gameName) != nullptr) {
     //     resultPrinter.printResult(
     //         "Game", gameName, false,
     //         "A game with that name already exists.", outcomeLabelFor("sell"));
@@ -613,15 +639,19 @@ void TransactionHandler::handleBuy() {
         return;
     }
 
-    // Rule: the game name must be an existing game, sold by that seller.
-    // const Game* game = availableGames.findGame(gameName);
-    // if (game == nullptr || game->getSeller() != sellerName) {
+    // Rule: the game name must be an existing game.
+    // const Game* game = availableGames.findGameByName(gameName);
+    // if (game == nullptr) {
     //     resultPrinter.printResult(
     //         "Game", gameName, false,
-    //         "No such game is for sale by that seller.", outcomeLabelFor("buy"));
+    //         "No such game is for sale.", outcomeLabelFor("buy"));
     //     return;
     // }
 
+    // Needs a 'seller' field on Game (see the list for Evan below):
+    // if (game->seller != sellerName) { ...same failure message... }
+
+    // Rule: a user cannot buy their own game.
     if (sellerName == session.getUsername()) {
         resultPrinter.printResult(
             "Game", gameName, false,
@@ -630,7 +660,7 @@ void TransactionHandler::handleBuy() {
     }
 
     // Rule: no transactions on a game listed this session, or on a game
-    // whose seller was deleted this session.
+    // whose seller was deleted this session. (Needs the Session additions below.)
     // if (session.isNewGame(gameName) || session.isDeleted(sellerName)) {
     //     resultPrinter.printResult(
     //         "Game", gameName, false,
@@ -638,10 +668,18 @@ void TransactionHandler::handleBuy() {
     //     return;
     // }
 
+    // User* buyer  = userAccounts.findUser(session.getUsername());
+    // User* seller = userAccounts.findUser(sellerName);
+    // if (buyer == nullptr || seller == nullptr) {
+    //     resultPrinter.printResult(
+    //         "Game", gameName, false,
+    //         "Buyer and seller must be current users.", outcomeLabelFor("buy"));
+    //     return;
+    // }
+
     // Rule: the buyer must have enough money to buy the game.
-    // const User* buyer = userAccounts.findUser(session.getUsername());
-    // double price = game->getPrice();
-    // if (buyer->getCredit() < price) {
+    // double price = game->price;
+    // if (toCents(buyer->balance) < toCents(price)) {
     //     resultPrinter.printResult(
     //         "Game", gameName, false,
     //         "Not enough credit to buy this game.", outcomeLabelFor("buy"));
@@ -649,7 +687,7 @@ void TransactionHandler::handleBuy() {
     // }
 
     // Rule: the buyer must not already have a copy in their collection.
-    // if (gameCollection.owns(session.getUsername(), gameName)) {
+    // if (gameCollection.userOwnsGame(session.getUsername(), gameName)) {
     //     resultPrinter.printResult(
     //         "Game", gameName, false,
     //         "You already own this game.", outcomeLabelFor("buy"));
@@ -657,20 +695,18 @@ void TransactionHandler::handleBuy() {
     // }
 
     // Rule: the seller's balance must not go over the 999,999.00 maximum.
-    // const User* seller = userAccounts.findUser(sellerName);
-    // if (seller->getCredit() + price > MAX_CREDIT) {
+    // if (toCents(seller->balance) + toCents(price) > toCents(MAX_CREDIT)) {
     //     resultPrinter.printResult(
     //         "Game", gameName, false,
     //         "Seller credit would exceed 999999.00.", outcomeLabelFor("buy"));
     //     return;
     // }
 
-    // Rule: add the game to the buyer's collection.
-    // gameCollection.addGame(gameName, session.getUsername());
-
-    // Rule: credit the seller and deduct the same amount from the buyer.
-    // userAccounts.adjustCredit(sellerName, price);
-    // userAccounts.adjustCredit(session.getUsername(), -price);
+    // Rule: add the game to the buyer's collection, credit the seller and
+    // deduct the same amount from the buyer.
+    // gameCollection.addGameToUser(session.getUsername(), gameName);
+    // userAccounts.updateBalance(sellerName, seller->balance + price);
+    // userAccounts.updateBalance(session.getUsername(), buyer->balance - price);
 
     // Rule: save this information to the daily transaction file (code 04).
     // transactionLog.recordBuy(gameName, sellerName, session.getUsername(), price);
@@ -678,7 +714,6 @@ void TransactionHandler::handleBuy() {
     resultPrinter.printResult(
         "Game", gameName, true,
         "Game purchased.", outcomeLabelFor("buy"));
-
 }
 
 
@@ -763,37 +798,33 @@ void TransactionHandler::handleRefund() {
         return;
     }
 
-    // Rule: buyer and seller both must be current users. A user deleted
-    // earlier in this session no longer counts as current.
-
-    // const User* buyer = userAccounts.findUser(buyerName);
-
-    // if (buyer == nullptr || session.isDeleted(buyerName)) {
+    // Rule: buyer and seller both must be current users.
+    // User* buyer = userAccounts.findUser(buyerName);
+    // if (buyer == nullptr /* || session.isDeleted(buyerName) */) {
     //     resultPrinter.printResult(
     //         "Buyer", buyerName, false,
     //         "Buyer must be a current user.", outcomeLabelFor("refund"));
     //     return;
     // }
 
-    // const User* seller = userAccounts.findUser(sellerName);
-
-    // if (seller == nullptr || session.isDeleted(sellerName)) {
+    // User* seller = userAccounts.findUser(sellerName);
+    // if (seller == nullptr /* || session.isDeleted(sellerName) */) {
     //     resultPrinter.printResult(
     //         "Buyer", buyerName, false,
     //         "Seller must be a current user.", outcomeLabelFor("refund"));
     //     return;
     // }
 
-    // Test case: the seller must have enough credit to give.
-    // if (seller->getCredit() < amount) {
+    // The seller must have enough credit to give.
+    // if (toCents(seller->balance) < toCents(amount)) {
     //     resultPrinter.printResult(
     //         "Buyer", buyerName, false,
     //         "Seller has insufficient credit.", outcomeLabelFor("refund"));
     //     return;
     // }
 
-    // Test case: the buyer's balance must not go over the maximum.
-    // if (buyer->getCredit() + amount > MAX_CREDIT) {
+    // The buyer's balance must not go over the maximum.
+    // if (toCents(buyer->balance) + toCents(amount) > toCents(MAX_CREDIT)) {
     //     resultPrinter.printResult(
     //         "Buyer", buyerName, false,
     //         "Buyer credit would exceed 999999.00.", outcomeLabelFor("refund"));
@@ -801,8 +832,8 @@ void TransactionHandler::handleRefund() {
     // }
 
     // Rule: transfer the credit from the seller to the buyer.
-    // userAccounts.adjustCredit(sellerName, -amount);
-    // userAccounts.adjustCredit(buyerName, amount);
+    // userAccounts.updateBalance(sellerName, seller->balance - amount);
+    // userAccounts.updateBalance(buyerName, buyer->balance + amount);
 
     // Rule: save this information to the daily transaction file (code 05).
     // transactionLog.recordRefund(buyerName, sellerName, amount);
@@ -867,18 +898,16 @@ void TransactionHandler::handleAddCredit() {
         return;
     }
 
-    // Rule: in admin mode the username must be an existing user. A user
-    // deleted earlier in this session no longer exists.
-    // const User* target = userAccounts.findUser(targetName);
-    // if (target == nullptr || session.isDeleted(targetName)) {
+    // Rule: the username must be an existing user.
+    // User* target = userAccounts.findUser(targetName);
+    // if (target == nullptr /* || session.isDeleted(targetName) */) {
     //     resultPrinter.printResult(
     //         "Amount", amountText, false,
     //         "Username not found.", outcomeLabelFor("addcredit"));
     //     return;
     // }
 
-    // Rule: at most $1000.00 can be added to an account in one session.
-    // The total already added this session is kept in whole cents.
+    // Rule: at most $1000.00 per account per session. (Needs the Session additions below.)
     // if (session.getCreditAddedCents(targetName) + toCents(amount)
     //         > toCents(MAX_SESSION_CREDIT)) {
     //     resultPrinter.printResult(
@@ -889,57 +918,43 @@ void TransactionHandler::handleAddCredit() {
     // }
 
     // Rule: an account balance can never go over 999,999.00.
-    // if (toCents(target->getCredit()) + toCents(amount) > toCents(MAX_CREDIT)) {
+    // if (toCents(target->balance) + toCents(amount) > toCents(MAX_CREDIT)) {
     //     resultPrinter.printResult(
     //         "Amount", amountText, false,
     //         "Credit would exceed 999999.00.", outcomeLabelFor("addcredit"));
     //     return;
     // }
 
-    // Apply the change and remember it for the session limit.
-    // userAccounts.adjustCredit(targetName, amount);
+    // Apply the change (the pointer sees the updated balance afterwards).
+    // userAccounts.updateBalance(targetName, target->balance + amount);
     // session.recordCreditAdded(targetName, toCents(amount));
-    // double newCredit = userAccounts.findUser(targetName)->getCredit();
 
     // Rule: save this information to the daily transaction file (code 06).
-    // transactionLog.recordAddCredit(targetName, target->getType(), newCredit);
+    // transactionLog.recordAddCredit(targetName, target->permissions, target->balance);
 
-    // Temporary success message. Once the lines above are live, replace it with:
-    // resultPrinter.printResult(
-    //     "Amount", amountText, true,
-    //     "Added $" + formatMoney(amount) + " to " + targetName +
-    //     ". New credit: $" + formatMoney(newCredit) + ".",
-    //     outcomeLabelFor("addcredit"));
     resultPrinter.printResult(
-        "Amount", amountText, true,
-        "Added $" + formatMoney(amount) + " to " + targetName + ".",
-        outcomeLabelFor("addcredit"));
+            "Amount", amountText, true,
+            "Added $" + formatMoney(amount) + " to " + targetName + ".",
+            outcomeLabelFor("addcredit"));
 }
 
-// Handles the list transaction: prints every game currently for sale.
-// Takes no input fields. Open to every logged-in user, so there is no
-// permission check here.
+
 void TransactionHandler::handleList() {
 
-    // The games file was loaded at login, so the list is already in memory.
     // const std::vector<Game>& games = availableGames.getAllGames();
 
-    // First line of the message: the count (singular for exactly one game).
     // std::string message = std::to_string(games.size()) +
     //     (games.size() == 1 ? " game" : " games") + " available for sale.";
 
-    // One line per game, in file order, e.g.
-    // "Game: Portal 2 | Seller: sellUser | Price: $9.99"
     // for (const Game& game : games) {
-    //     message += "\nGame: " + game.getName() +
-    //                " | Seller: " + game.getSeller() +
-    //                " | Price: $" + formatMoney(game.getPrice());
+    //     message += "\nGame: " + game.name +
+    //                // " | Seller: " + game.seller +   // enable once Game has 'seller'
+    //                " | Price: $" + formatMoney(game.price);
     // }
 
     // resultPrinter.printResult(
     //     "Transaction", "list", true, message, outcomeLabelFor("list"));
 
-    // Placeholder until the data classes exist.
     printNotImplemented("list");
 }
 
@@ -957,31 +972,23 @@ void TransactionHandler::handleListAccounts() {
         return;
     }
 
-    // The accounts file was loaded at login, so the accounts are in memory.
-    // const std::vector<User>& users = userAccounts.getAllUsers();
+    // const std::vector<User>& users = userAccounts.getUsers();
 
-    // Build one line per active account, in file order. "Active" means in
-    // the accounts file and not deleted this session.
     // std::string lines;
     // std::size_t count = 0;
     // for (const User& user : users) {
-    //     if (session.isDeleted(user.getUsername())) {
-    //         continue;
-    //     }
-    //     lines += "\nAccount: " + user.getUsername() +
-    //              " | Type: " + typeNameFor(user.getType()) +
-    //              " | Credit: $" + formatMoney(user.getCredit());
+    //     // if (session.isDeleted(user.username)) { continue; }   // needs Session additions
+    //     lines += "\nAccount: " + user.username +
+    //              " | Type: " + typeNameFor(user.permissions) +
+    //              " | Credit: $" + formatMoney(user.balance);
     //     count++;
     // }
 
-    // First line of the message is the count (singular for exactly one),
-    // followed by the account lines, the same layout as the list output.
     // std::string message = std::to_string(count) +
     //     (count == 1 ? " account" : " accounts") + " active." + lines;
 
     // resultPrinter.printResult(
     //     "Transaction", "listaccounts", true, message, outcomeLabelFor("listaccounts"));
 
-    // Placeholder until the data classes exist.
     printNotImplemented("listaccounts");
 }
