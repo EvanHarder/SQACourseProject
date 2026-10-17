@@ -2,6 +2,7 @@
 frontend
 frontend.exe
 *.o
+*.d
 # test run output (results/results.txt stays tracked)
 results/run_*/
 results/latest
