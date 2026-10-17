@@ -1,7 +1,6 @@
 #include "GameCollection.h"
 #include "FormatUtils.h"
 #include <fstream>
-#include <sstream>
 
 GameCollection::GameCollection(std::string collectionFilename) : filename(std::move(collectionFilename)) {}
 
@@ -12,13 +11,12 @@ bool GameCollection::loadFromFile() {
 
     std::string line;
     while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        std::string username, gameName;
+        if (FormatUtils::trimText(line) == "END") break;
+        if (line.length() <= 27) continue;
 
-        //ASSUMES ONE WORD GAMENAMES
-        if (iss >> username >> gameName) {
-            userGames[username].push_back(gameName);
-        }
+        std::string gameName = FormatUtils::trimText(line.substr(0, 27));
+        std::string username = FormatUtils::trimText(line.substr(27, 15));
+        userGames[username].push_back(gameName);
     }
     return true;
 }
@@ -36,13 +34,14 @@ bool GameCollection::saveToFile() {
         
         for (const auto& gameTitle : gamesList) {
             
-            std::string pGame = FormatUtils::padText(gameTitle, 26);
+            std::string pGame = FormatUtils::padText(gameTitle, 27);
 
             
             file << pGame << pUser << "\n";
         }
     }
 
+    file << FormatUtils::padText("END", 42) << "\n";
     return true;
 }
 

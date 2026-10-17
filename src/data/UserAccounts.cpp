@@ -1,7 +1,6 @@
 #include "UserAccounts.h"
 #include "FormatUtils.h"
 #include <fstream>
-#include <sstream>
 
 UserAccounts::UserAccounts(std::string accountFilename) : filename(std::move(accountFilename)) {}
 
@@ -12,12 +11,13 @@ bool UserAccounts::loadFromFile() {
 
     std::string line;
     while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        std::string uname;
-        double bal;
-        if (iss >> uname >> bal) {
-            users.push_back({uname, bal});
-        }
+        if (FormatUtils::trimText(line) == "END") break;
+        if (line.length() < 28) continue;
+
+        std::string uname = FormatUtils::trimText(line.substr(0, 16));
+        std::string type = line.substr(16, 2);
+        double bal = FormatUtils::textToMoney(line.substr(19, 9));
+        users.push_back({uname, bal, type});
     }
     return true;
 }
@@ -32,6 +32,7 @@ bool UserAccounts::saveToFile() {
     std::string pBalance = FormatUtils::moneyToText(user.balance, 9);
     file << pUser << pPermissions << pBalance << "\n";
     }
+    file << FormatUtils::padText("END", 28) << "\n";
     
     return true;
 }

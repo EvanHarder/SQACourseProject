@@ -1,7 +1,6 @@
 #include "AvailableGames.h"
 #include "FormatUtils.h"
 #include <fstream>
-#include <sstream>
 
 AvailableGames::AvailableGames(std::string gamesFilename) : filename(std::move(gamesFilename)) {}
 
@@ -12,12 +11,13 @@ bool AvailableGames::loadFromFile() {
 
     std::string line;
     while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        std::string seller, name;
-        double price;
-        if (iss >> name >> seller >> price) {
-            games.push_back({name, seller, price});
-        }
+        if (FormatUtils::trimText(line) == "END") break;
+        if (line.length() < 49) continue;
+
+        std::string name = FormatUtils::trimText(line.substr(0, 27));
+        std::string seller = FormatUtils::trimText(line.substr(27, 16));
+        double price = FormatUtils::textToMoney(line.substr(43, 6));
+        games.push_back({seller, name, price});
     }
     return true;
 
@@ -32,6 +32,7 @@ bool AvailableGames::saveToFile() {
     std::string pPrice = FormatUtils::moneyToText(game.price, 6);
     file << pName << pSeller << pPrice << "\n";
     }
+    file << FormatUtils::padText("END", 49) << "\n";
     
     return true;
 }

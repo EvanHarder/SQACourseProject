@@ -12,6 +12,16 @@ std::string FormatUtils::padText(const std::string& text, size_t width) {
         return text + std::string(width - text.length(), ' ');
 }
 
+std::string FormatUtils::trimText(const std::string& text) {
+    const char* whitespace = " \t\r\n";
+    size_t first = text.find_first_not_of(whitespace);
+    if (first == std::string::npos) {
+        return "";
+    }
+    size_t last = text.find_last_not_of(whitespace);
+    return text.substr(first, last - first + 1);
+}
+
 std::string FormatUtils::moneyToText(double amount, size_t totalWidth) {
     //Formatting number (01000 = 1000.00)
     std::ostringstream oss;
