@@ -28,11 +28,7 @@
  *   frontend <accounts_file> <available_games_file> <game_collection_file> <daily_transaction_file> < input.txt
  *
  *   Example (from the repository root):
- *   ./frontend TestCases/data/current_user_accounts.txt TestCases/data/available_games.txt \
- *              TestCases/data/game_collection.txt daily_transaction.txt \
- *              < TestCases/login/success/login01/input.txt
- *
- * Owner: Member B
+ *   ./frontend TestCases/data/current_user_accounts.txt TestCases/data/available_games.txt TestCases/data/game_collection.txt daily_transaction.txt < TestCases/login/success/login01/input.txt
  */
 
 #include <fstream>
@@ -52,9 +48,7 @@ namespace {
 
     // Prints how to run the program to standard error.
     void printUsage(const std::string& programName) {
-        std::cerr << "Usage: " << programName
-                  << " <accounts_file> <available_games_file> <game_collection_file>"
-                  << " <daily_transaction_file> < input.txt" << std::endl;
+        std::cerr << "Usage: " << programName << " <accounts_file> <available_games_file> <game_collection_file> <daily_transaction_file> < input.txt" << std::endl;
     }
 
     // Returns true if the file at path exists and can be opened for reading.
@@ -85,8 +79,7 @@ int main(int argc, char* argv[]) {
     }
 
     InputReader inputReader(std::cin);
-    FrontEnd frontEnd(accountsFile, availableGamesFile, gameCollectionFile,
-                      dailyTransactionFile, inputReader);
+    FrontEnd frontEnd(accountsFile, availableGamesFile, gameCollectionFile, dailyTransactionFile, inputReader);
     frontEnd.run();
     return 0;
 }
