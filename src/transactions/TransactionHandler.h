@@ -23,8 +23,7 @@
 // Handles transactions requested by the Front End.
 class TransactionHandler {
 public:
-    // Connects the handler to the existing input, output,
-    // and session objects.
+    // Connects the handler to the existing input, output, and session objects.
     TransactionHandler(InputReader& reader,
                        ResultPrinter& printer,
                        Session& currentSession,
@@ -57,11 +56,11 @@ private:
     void handleBuy();
     void handleRefund();
     void handleAddCredit();
-    void handleList(); //list games 
-    void handleListAccounts(); //list accounts
+    void handleList(); 
+    void handleListAccounts();
 
     // Prints a temporary result for unfinished handlers.
     void printNotImplemented(const std::string& transactionCode);
 };
 
-#endif // TRANSACTION_HANDLER_H
+#endif 
