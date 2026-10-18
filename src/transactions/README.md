@@ -1,6 +1,8 @@
 # transactions/
-The transactions themselves (Member C).
+The transactions themselves.
 
-- `TransactionHandler.h/.cpp`: one method per transaction: login, logout, create, deleteUser,
-  sell, buy, refund, addCredit, list, listAccounts
-- Phase 2: delete and refund print "Not yet implemented." (finished in Phase 3)
+- `TransactionHandler.h/.cpp`: `handleTransaction` checks login and permissions, then calls one method per transaction:
+  handleLogin, handleLogout, handleCreate, handleDelete, handleSell, handleBuy, handleRefund,
+  handleAddCredit, handleList, handleListAccounts
+- Phase 2: every transaction checks its rules; writing the daily transaction file and some data changes
+  (marked PLACEHOLDER in the code) will be finished in Phase 3
