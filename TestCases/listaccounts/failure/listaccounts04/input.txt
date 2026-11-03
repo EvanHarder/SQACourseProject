@@ -1,0 +1,4 @@
+transaction: listaccounts
+transaction: login
+username: admin01
+transaction: logout

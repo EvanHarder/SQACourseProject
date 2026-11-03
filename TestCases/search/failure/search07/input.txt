@@ -1,0 +1,5 @@
+transaction: login
+username: fullUser
+transaction: search
+query:
+transaction: logout
