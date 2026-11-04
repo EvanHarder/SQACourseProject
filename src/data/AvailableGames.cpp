@@ -65,3 +65,19 @@ const Game* AvailableGames::findGameByName(const std::string& name) const {
 const std::vector<Game>& AvailableGames::getAllGames() const {
     return games;
 }
+
+// Appends the new game; Game stores its fields in the order seller, name, price.
+void AvailableGames::addGame(const std::string& name, const std::string& seller, double price) {
+    games.push_back({seller, name, price});
+}
+
+// Keeps only the games whose seller is someone else.
+void AvailableGames::removeGamesBySeller(const std::string& seller) {
+    std::vector<Game> kept;
+    for (const auto& game : games) {
+        if (game.seller != seller) {
+            kept.push_back(game);
+        }
+    }
+    games = kept;
+}

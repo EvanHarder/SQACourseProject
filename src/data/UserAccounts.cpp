@@ -75,3 +75,19 @@ bool UserAccounts::updateBalance(const std::string& username, double newBalance)
 const std::vector<User>& UserAccounts::getUsers() const {
     return users;
 }
+
+// Appends the new account so later transactions in this session can find it.
+void UserAccounts::addUser(const std::string& username, const std::string& userType, double credit) {
+    users.push_back({username, credit, userType});
+}
+
+// Erases the account with this exact username.
+bool UserAccounts::removeUser(const std::string& username) {
+    for (auto it = users.begin(); it != users.end(); ++it) {
+        if (it->username == username) {
+            users.erase(it);
+            return true;
+        }
+    }
+    return false;
+}

@@ -39,6 +39,12 @@ public:
 
     // Returns every game for sale.
     const std::vector<Game>& getAllGames() const;
+
+    // Adds a game put up for sale this session (in memory only).
+    void addGame(const std::string& name, const std::string& seller, double price);
+
+    // Removes every game sold by the given seller, e.g. when that user is deleted (in memory only).
+    void removeGamesBySeller(const std::string& seller);
 };
 
 #endif

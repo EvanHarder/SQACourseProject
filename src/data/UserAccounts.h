@@ -42,6 +42,12 @@ public:
 
     // Returns every loaded account.
     const std::vector<User>& getUsers() const;
+
+    // Adds a newly created account with the given type code and credit (in memory only).
+    void addUser(const std::string& username, const std::string& userType, double credit);
+
+    // Removes a deleted account (in memory only); returns false if the user does not exist.
+    bool removeUser(const std::string& username);
 };
 
 #endif
