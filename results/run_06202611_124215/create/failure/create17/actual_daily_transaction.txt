@@ -1,0 +1,4 @@
+01 newbie          FS 000000.00
+06 newbie          FS 000100.00
+00 admin01         AA 005000.00
+00 admin01         AA 005000.00

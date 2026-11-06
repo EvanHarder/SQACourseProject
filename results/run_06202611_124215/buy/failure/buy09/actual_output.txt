@@ -1,0 +1,14 @@
+Username: buyUser
+Status: SUCCESS
+Message: Welcome buyUser. Account type: buy-standard. Credit: $500.00.
+Logged In: Yes
+
+Game: Portal 2
+Status: FAILURE
+Message: You already own this game.
+Game Purchased: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

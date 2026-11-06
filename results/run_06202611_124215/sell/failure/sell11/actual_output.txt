@@ -1,0 +1,19 @@
+Username: fullUser
+Status: SUCCESS
+Message: Welcome fullUser. Account type: full-standard. Credit: $2000.00.
+Logged In: Yes
+
+Game: Double Game
+Status: SUCCESS
+Message: Double Game is now for sale at $10.00.
+Game Listed For Sale: Yes
+
+Game: Double Game
+Status: FAILURE
+Message: Game name already exists.
+Game Listed For Sale: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
