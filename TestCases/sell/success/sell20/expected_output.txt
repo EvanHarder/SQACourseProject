@@ -5,7 +5,7 @@ Logged In: Yes
 
 Game: celeste
 Status: SUCCESS
-Message: Celeste is now for sale at $5.00.
+Message: celeste is now for sale at $5.00.
 Game Listed For Sale: Yes
 
 Transaction: logout
