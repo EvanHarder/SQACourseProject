@@ -28,6 +28,7 @@ void Session::end() {
     username.clear();
     userType.clear();
     deletedUsers.clear();
+    newUsers.clear();
     newGames.clear();
     creditAddedCents.clear();
 }
@@ -60,6 +61,16 @@ void Session::markDeleted(const std::string& deletedUsername) {
 // Checks the users deleted this session.
 bool Session::isDeleted(const std::string& checkUsername) const {
     return deletedUsers.count(checkUsername) > 0;
+}
+
+// Remembers the new user until logout.
+void Session::markNewUser(const std::string& newUsername) {
+    newUsers.insert(newUsername);
+}
+
+// Checks the users created this session.
+bool Session::isNewUser(const std::string& checkUsername) const {
+    return newUsers.count(checkUsername) > 0;
 }
 
 // Remembers the new game until logout.

@@ -6,7 +6,7 @@
  * session (between a login and a logout).
  *
  * Also remembers what changed during the session that later transactions must
- * respect: users deleted, games put up for sale, and credit added per account.
+ * respect: users created or deleted, games put up for sale, and credit added per account.
  * All of it is cleared at logout, since the data files are reloaded at the next login.
  */
 
@@ -46,6 +46,12 @@ public:
     // Returns true if the user was deleted this session, so no further transactions may use them.
     bool isDeleted(const std::string& checkUsername) const;
 
+    // Records a user created this session.
+    void markNewUser(const std::string& newUsername);
+
+    // Returns true if the user was created this session, so they cannot be used until the next session.
+    bool isNewUser(const std::string& checkUsername) const;
+
     // Records a game put up for sale this session.
     void markNewGame(const std::string& gameName);
 
@@ -63,6 +69,7 @@ private:
     std::string username;   // the logged-in user's name
     std::string userType;   // the logged-in user's two-letter type code
     std::set<std::string> deletedUsers;                 // users deleted this session
+    std::set<std::string> newUsers;                     // users created this session
     std::set<std::string> newGames;                     // games put up for sale this session
     std::map<std::string, long long> creditAddedCents;  // credit added per account this session, in cents
 };
