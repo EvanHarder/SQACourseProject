@@ -1,0 +1,47 @@
+Comparing files C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\CREATE\FAILURE\CREATE15\expected_output.txt and C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_04202611_011844\CREATE\FAILURE\CREATE15\ACTUAL_OUTPUT.TXT
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\CREATE\FAILURE\CREATE15\expected_output.txt
+
+Username: twin
+Status: SUCCESS
+Message: User twin created as full-standard.
+Account Created: Yes
+
+Username: twin
+Status: FAILURE
+Message: Username already exists.
+Account Created: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_04202611_011844\CREATE\FAILURE\CREATE15\ACTUAL_OUTPUT.TXT
+
+Input: email: twin@example.com
+Status: FAILURE
+Message: Expected a line of the form 'type: <user type>'.
+Created: No
+
+Line: password: Passw0rd1
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: type: FS
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Input: transaction: logout
+Status: FAILURE
+Message: Expected a line of the form 'type: <user type>'.
+Created: No
+*****
+
+Comparing files C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\CREATE\FAILURE\CREATE15\daily_transaction.txt and C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_04202611_011844\CREATE\FAILURE\CREATE15\ACTUAL_DAILY_TRANSACTION.TXT
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\CREATE\FAILURE\CREATE15\daily_transaction.txt
+01 twin            FS 000000.00
+00 admin01         AA 005000.00
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_04202611_011844\CREATE\FAILURE\CREATE15\ACTUAL_DAILY_TRANSACTION.TXT
+*****
+

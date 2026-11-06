@@ -1,0 +1,19 @@
+Username: fullUser
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: addcredit
+Status: FAILURE
+Message: You must log in first.
+Credit Added: No
+
+Line: amount: 0
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

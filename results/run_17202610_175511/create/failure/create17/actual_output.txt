@@ -1,0 +1,64 @@
+Username: admin01
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: create
+Status: FAILURE
+Message: You must log in first.
+Created: No
+
+Line: username: newbie
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: email: newbie@example.com
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: password: Passw0rd1
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: type: FS
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: addcredit
+Status: FAILURE
+Message: You must log in first.
+Credit Added: No
+
+Line: amount: 100
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: username: newbie
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No
+
+Username: newbie
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Username: admin01
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

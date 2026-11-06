@@ -1,0 +1,19 @@
+Transaction: LOGIN
+Status: FAILURE
+Message: You must log in first.
+Transaction Accepted: No
+
+Username: fullUser
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: Logout
+Status: FAILURE
+Message: You must log in first.
+Transaction Accepted: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

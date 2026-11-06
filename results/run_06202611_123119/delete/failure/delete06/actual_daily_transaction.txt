@@ -1,0 +1,3 @@
+02 poorUser        FS 000005.00
+02 poorUser        FS 000005.00
+00 admin01         AA 005000.00

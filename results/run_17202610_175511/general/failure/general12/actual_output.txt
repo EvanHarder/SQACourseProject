@@ -1,0 +1,14 @@
+Input: Username: fullUser
+Status: FAILURE
+Message: Expected a line of the form 'username: <name>'.
+Logged In: No
+
+Username: fullUser
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

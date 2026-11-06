@@ -1,0 +1,34 @@
+Username: buyUser
+Status: SUCCESS
+Message: Welcome buyUser. Account type: buy-standard. Credit: $500.00.
+Logged In: Yes
+
+Input: game: Expensive Game
+Status: FAILURE
+Message: Expected a line of the form 'gamename: <name>'.
+Game Purchased: No
+
+Line: seller: admin02
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Amount: 600
+Status: SUCCESS
+Message: Added $600.00 to buyUser.
+Credit Added: Yes
+
+Input: game: Expensive Game
+Status: FAILURE
+Message: Expected a line of the form 'gamename: <name>'.
+Game Purchased: No
+
+Line: seller: admin02
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

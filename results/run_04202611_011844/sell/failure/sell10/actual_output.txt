@@ -1,0 +1,14 @@
+Username: fullUser
+Status: SUCCESS
+Message: Welcome fullUser. Account type: full-standard. Credit: $2000.00.
+Logged In: Yes
+
+Input: game: Celeste
+Status: FAILURE
+Message: Expected a line of the form 'gamename: <name>'.
+ForSale: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

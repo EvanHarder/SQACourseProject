@@ -1,0 +1,4 @@
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

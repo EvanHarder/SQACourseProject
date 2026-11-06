@@ -1,0 +1,24 @@
+Username: admin01
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: refund
+Status: FAILURE
+Message: You must log in first.
+Credit Refunded: No
+
+Line: buyer: fullUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: seller: ghost
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

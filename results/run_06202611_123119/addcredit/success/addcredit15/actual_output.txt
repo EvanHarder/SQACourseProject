@@ -1,0 +1,14 @@
+Username: buyUser
+Status: SUCCESS
+Message: Welcome buyUser. Account type: buy-standard. Credit: $500.00.
+Logged In: Yes
+
+Amount: 25.50
+Status: SUCCESS
+Message: Added $25.50 to buyUser. New credit: $525.50.
+Credit Added: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

@@ -1,0 +1,14 @@
+Username: admin01
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: list
+Status: FAILURE
+Message: You must log in first.
+Games Listed: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

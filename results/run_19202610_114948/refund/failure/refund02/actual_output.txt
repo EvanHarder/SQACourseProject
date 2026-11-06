@@ -1,0 +1,44 @@
+Username: fullUser
+Status: SUCCESS
+Message: Welcome fullUser. Account type: full-standard. Credit: $2000.00.
+Logged In: Yes
+
+Transaction: refund
+Status: FAILURE
+Message: Permission denied.
+Credit Refunded: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
+
+Username: buyUser
+Status: SUCCESS
+Message: Welcome buyUser. Account type: buy-standard. Credit: $500.00.
+Logged In: Yes
+
+Transaction: refund
+Status: FAILURE
+Message: Permission denied.
+Credit Refunded: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
+
+Username: sellUser
+Status: SUCCESS
+Message: Welcome sellUser. Account type: sell-standard. Credit: $100.00.
+Logged In: Yes
+
+Transaction: refund
+Status: FAILURE
+Message: Permission denied.
+Credit Refunded: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

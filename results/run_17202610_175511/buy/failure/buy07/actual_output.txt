@@ -1,0 +1,24 @@
+Username: poorUser
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: buy
+Status: FAILURE
+Message: You must log in first.
+Game Purchased: No
+
+Line: game: Celeste
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: seller: fullUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

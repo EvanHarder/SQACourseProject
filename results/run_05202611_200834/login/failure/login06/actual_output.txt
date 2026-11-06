@@ -1,0 +1,49 @@
+Transaction: logout
+Status: FAILURE
+Message: Authentication required before proceeding.
+Logged Out: No
+
+Transaction: create
+Status: FAILURE
+Message: Authentication required before proceeding.
+Account Created: No
+
+Transaction: delete
+Status: FAILURE
+Message: Authentication required before proceeding.
+Account Deleted: No
+
+Transaction: sell
+Status: FAILURE
+Message: Authentication required before proceeding.
+Game Listed For Sale: No
+
+Transaction: buy
+Status: FAILURE
+Message: Authentication required before proceeding.
+Game Purchased: No
+
+Transaction: refund
+Status: FAILURE
+Message: Authentication required before proceeding.
+Credit Refunded: No
+
+Transaction: addcredit
+Status: FAILURE
+Message: Authentication required before proceeding.
+Credit Added: No
+
+Transaction: list
+Status: FAILURE
+Message: Authentication required before proceeding.
+Games Listed: No
+
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

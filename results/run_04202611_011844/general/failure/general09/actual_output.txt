@@ -1,0 +1,14 @@
+Input: admin01
+Status: FAILURE
+Message: Expected a line of the form 'username: <name>'.
+Logged In: No
+
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

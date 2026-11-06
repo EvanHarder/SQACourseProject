@@ -1,0 +1,127 @@
+Comparing files C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\LIST\SUCCESS\LIST09\expected_output.txt and C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\LIST\SUCCESS\LIST09\ACTUAL_OUTPUT.TXT
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\LIST\SUCCESS\LIST09\expected_output.txt
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Username: sellUser
+Status: SUCCESS
+Message: User sellUser deleted. Their games are no longer for sale.
+Account Deleted: Yes
+
+Username: fullUser
+Status: SUCCESS
+Message: User fullUser deleted. Their games are no longer for sale.
+Account Deleted: Yes
+
+Username: richUser
+Status: SUCCESS
+Message: User richUser deleted. Their games are no longer for sale.
+Account Deleted: Yes
+
+Username: Jane Doe
+Status: SUCCESS
+Message: User Jane Doe deleted. Their games are no longer for sale.
+Account Deleted: Yes
+
+Username: admin02
+Status: SUCCESS
+Message: User admin02 deleted. Their games are no longer for sale.
+Account Deleted: Yes
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\LIST\SUCCESS\LIST09\ACTUAL_OUTPUT.TXT
+Username: admin01
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: delete
+Status: FAILURE
+Message: You must log in first.
+Deleted: No
+
+Line: username: sellUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: delete
+Status: FAILURE
+Message: You must log in first.
+Deleted: No
+
+Line: username: fullUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: delete
+Status: FAILURE
+Message: You must log in first.
+Deleted: No
+
+Line: username: richUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: delete
+Status: FAILURE
+Message: You must log in first.
+Deleted: No
+
+Line: username: Jane Doe
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: delete
+Status: FAILURE
+Message: You must log in first.
+Deleted: No
+
+Line: username: admin02
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+*****
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\LIST\SUCCESS\LIST09\expected_output.txt
+Transaction: list
+Status: SUCCESS
+Message: No games are currently for sale.
+Games Listed: Yes
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\LIST\SUCCESS\LIST09\ACTUAL_OUTPUT.TXT
+Transaction: list
+Status: FAILURE
+Message: You must log in first.
+Games Listed: No
+
+*****
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\LIST\SUCCESS\LIST09\expected_output.txt
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\LIST\SUCCESS\LIST09\ACTUAL_OUTPUT.TXT
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No
+*****
+
+Comparing files C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\LIST\SUCCESS\LIST09\daily_transaction.txt and C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\LIST\SUCCESS\LIST09\ACTUAL_DAILY_TRANSACTION.TXT
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\LIST\SUCCESS\LIST09\daily_transaction.txt
+02 sellUser        SS 000100.00
+02 fullUser        FS 002000.00
+02 richUser        FS 999500.00
+02 Jane Doe        FS 000250.00
+02 admin02         AA 001000.00
+00 admin01         AA 005000.00
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\LIST\SUCCESS\LIST09\ACTUAL_DAILY_TRANSACTION.TXT
+*****
+

@@ -1,0 +1,29 @@
+Username: admin01
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: create
+Status: FAILURE
+Message: You must log in first.
+Created: No
+
+Line: username: newUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: email: newuser@example.com
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: password:
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

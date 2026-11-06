@@ -1,0 +1,69 @@
+Comparing files C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\SELL\FAILURE\SELL18\expected_output.txt and C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\SELL\FAILURE\SELL18\ACTUAL_OUTPUT.TXT
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\SELL\FAILURE\SELL18\expected_output.txt
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Game: Fresh Game
+Status: SUCCESS
+Message: Fresh Game is now for sale at $10.00.
+Game Listed For Sale: Yes
+
+Game: Fresh Game
+Status: FAILURE
+Message: Game is not available until the next session.
+Game Purchased: No
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\SELL\FAILURE\SELL18\ACTUAL_OUTPUT.TXT
+Username: admin01
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: sell
+Status: FAILURE
+Message: You must log in first.
+ForSale: No
+
+Line: game: Fresh Game
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: price: 10.00
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: buy
+Status: FAILURE
+Message: You must log in first.
+Game Purchased: No
+*****
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\SELL\FAILURE\SELL18\expected_output.txt
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\SELL\FAILURE\SELL18\ACTUAL_OUTPUT.TXT
+
+Line: game: Fresh Game
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No
+*****
+
+Comparing files C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\SELL\FAILURE\SELL18\daily_transaction.txt and C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\SELL\FAILURE\SELL18\ACTUAL_DAILY_TRANSACTION.TXT
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\SELL\FAILURE\SELL18\daily_transaction.txt
+03 Fresh Game                admin01         010.00
+00 admin01         AA 005000.00
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\SELL\FAILURE\SELL18\ACTUAL_DAILY_TRANSACTION.TXT
+*****
+

@@ -1,0 +1,19 @@
+Username: sellUser
+Status: SUCCESS
+Message: Welcome sellUser. Account type: sell-standard. Credit: $100.00.
+Logged In: Yes
+
+Input: game: Seller Special
+Status: FAILURE
+Message: Expected a line of the form 'gamename: <name>'.
+ForSale: No
+
+Line: price: 5.50
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

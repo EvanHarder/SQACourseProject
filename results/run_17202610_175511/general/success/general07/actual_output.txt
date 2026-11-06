@@ -1,0 +1,114 @@
+Username: admin01
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: create
+Status: FAILURE
+Message: You must log in first.
+Created: No
+
+Line: username: teamUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: email: teamuser@example.com
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: password: Passw0rd1
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: type: SS
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: delete
+Status: FAILURE
+Message: You must log in first.
+Deleted: No
+
+Line: username: poorUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: sell
+Status: FAILURE
+Message: You must log in first.
+ForSale: No
+
+Line: game: Team Game
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: price: 30.00
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: buy
+Status: FAILURE
+Message: You must log in first.
+Game Purchased: No
+
+Line: game: Hollow Knight
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: seller: sellUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: refund
+Status: FAILURE
+Message: You must log in first.
+Credit Refunded: No
+
+Line: buyer: buyUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: seller: sellUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: amount: 5.00
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: addcredit
+Status: FAILURE
+Message: You must log in first.
+Credit Added: No
+
+Line: amount: 250
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: username: fullUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: list
+Status: FAILURE
+Message: You must log in first.
+Games Listed: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

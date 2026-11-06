@@ -1,0 +1,91 @@
+Comparing files C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\LOGOUT\SUCCESS\LOGOUT04\expected_output.txt and C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\LOGOUT\SUCCESS\LOGOUT04\ACTUAL_OUTPUT.TXT
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\LOGOUT\SUCCESS\LOGOUT04\expected_output.txt
+Username: fullUser
+Status: SUCCESS
+Message: Welcome fullUser. Account type: full-standard. Credit: $2000.00.
+Logged In: Yes
+
+Amount: 100
+Status: SUCCESS
+Message: Added $100.00 to fullUser. New credit: $2100.00.
+Credit Added: Yes
+
+Game: Space Game
+Status: SUCCESS
+Message: Space Game is now for sale at $12.50.
+Game Listed For Sale: Yes
+
+Game: Stardew Valley
+Status: SUCCESS
+Message: Purchased Stardew Valley from sellUser for $15.00. Remaining credit: $2085.00.
+Game Purchased: Yes
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\LOGOUT\SUCCESS\LOGOUT04\ACTUAL_OUTPUT.TXT
+Username: fullUser
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: addcredit
+Status: FAILURE
+Message: You must log in first.
+Credit Added: No
+
+Line: amount: 100
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: sell
+Status: FAILURE
+Message: You must log in first.
+ForSale: No
+
+Line: game: Space Game
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: price: 12.50
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: buy
+Status: FAILURE
+Message: You must log in first.
+Game Purchased: No
+
+Line: game: Stardew Valley
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: seller: sellUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+*****
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\LOGOUT\SUCCESS\LOGOUT04\expected_output.txt
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\LOGOUT\SUCCESS\LOGOUT04\ACTUAL_OUTPUT.TXT
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No
+*****
+
+Comparing files C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\LOGOUT\SUCCESS\LOGOUT04\daily_transaction.txt and C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\LOGOUT\SUCCESS\LOGOUT04\ACTUAL_DAILY_TRANSACTION.TXT
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\LOGOUT\SUCCESS\LOGOUT04\daily_transaction.txt
+06 fullUser        FS 000100.00
+03 Space Game                fullUser        012.50
+04 Stardew Valley            sellUser        fullUser        015.00
+00 fullUser        FS 002085.00
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_17202610_175511\LOGOUT\SUCCESS\LOGOUT04\ACTUAL_DAILY_TRANSACTION.TXT
+*****
+

@@ -1,0 +1,24 @@
+Username: fullUser
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: sell
+Status: FAILURE
+Message: You must log in first.
+ForSale: No
+
+Line: game: Max Price Game
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: price: 999.99
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

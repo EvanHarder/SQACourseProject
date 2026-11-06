@@ -1,0 +1,34 @@
+Username: admin01
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: create
+Status: FAILURE
+Message: You must log in first.
+Created: No
+
+Line: username: newSeller
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: email: newseller@example.com
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: password: Passw0rd1
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: type: SS
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

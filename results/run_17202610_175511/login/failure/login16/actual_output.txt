@@ -1,0 +1,24 @@
+Username: fullUser
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: create
+Status: FAILURE
+Message: You must log in first.
+Created: No
+
+Transaction: delete
+Status: FAILURE
+Message: You must log in first.
+Deleted: No
+
+Transaction: refund
+Status: FAILURE
+Message: You must log in first.
+Credit Refunded: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

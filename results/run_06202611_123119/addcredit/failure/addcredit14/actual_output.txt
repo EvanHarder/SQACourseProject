@@ -1,0 +1,19 @@
+Username: richUser
+Status: SUCCESS
+Message: Welcome richUser. Account type: full-standard. Credit: $999500.00.
+Logged In: Yes
+
+Amount: 500
+Status: FAILURE
+Message: Credit would exceed 999999.00.
+Credit Added: No
+
+Amount: 499
+Status: SUCCESS
+Message: Added $499.00 to richUser. New credit: $999999.00.
+Credit Added: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

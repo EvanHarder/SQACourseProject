@@ -1,0 +1,49 @@
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No
+
+Transaction: create
+Status: FAILURE
+Message: You must log in first.
+Created: No
+
+Transaction: delete
+Status: FAILURE
+Message: You must log in first.
+Deleted: No
+
+Transaction: sell
+Status: FAILURE
+Message: You must log in first.
+ForSale: No
+
+Transaction: buy
+Status: FAILURE
+Message: You must log in first.
+Game Purchased: No
+
+Transaction: refund
+Status: FAILURE
+Message: You must log in first.
+Credit Refunded: No
+
+Transaction: addcredit
+Status: FAILURE
+Message: You must log in first.
+Credit Added: No
+
+Transaction: list
+Status: FAILURE
+Message: You must log in first.
+Games Listed: No
+
+Username: admin01
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

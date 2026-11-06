@@ -1,0 +1,4 @@
+Transaction: logout
+Status: FAILURE
+Message: Authentication required before proceeding.
+Logged Out: No

@@ -1,0 +1,101 @@
+Comparing files C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\GENERAL\SUCCESS\GENERAL07\expected_output.txt and C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_19202610_114948\GENERAL\SUCCESS\GENERAL07\ACTUAL_OUTPUT.TXT
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\GENERAL\SUCCESS\GENERAL07\expected_output.txt
+
+Username: teamUser
+Status: SUCCESS
+Message: User teamUser created as sell-standard.
+Account Created: Yes
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_19202610_114948\GENERAL\SUCCESS\GENERAL07\ACTUAL_OUTPUT.TXT
+
+Input: email: teamuser@example.com
+Status: FAILURE
+Message: Expected a line of the form 'type: <user type>'.
+Created: No
+
+Line: password: Passw0rd1
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: type: SS
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+*****
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\GENERAL\SUCCESS\GENERAL07\expected_output.txt
+Status: SUCCESS
+Message: User poorUser deleted. Their games are no longer for sale.
+Account Deleted: Yes
+
+Game: Team Game
+Status: SUCCESS
+Message: Team Game is now for sale at $30.00.
+Game Listed For Sale: Yes
+
+Game: Hollow Knight
+Status: SUCCESS
+Message: Purchased Hollow Knight from sellUser for $20.00. Remaining credit: $4980.00.
+Game Purchased: Yes
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_19202610_114948\GENERAL\SUCCESS\GENERAL07\ACTUAL_OUTPUT.TXT
+Status: SUCCESS
+Message: User deleted.
+Deleted: Yes
+
+Input: game: Team Game
+Status: FAILURE
+Message: Expected a line of the form 'gamename: <name>'.
+ForSale: No
+
+Line: price: 30.00
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Input: game: Hollow Knight
+Status: FAILURE
+Message: Expected a line of the form 'gamename: <name>'.
+Game Purchased: No
+
+Line: seller: sellUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+*****
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\GENERAL\SUCCESS\GENERAL07\expected_output.txt
+Status: SUCCESS
+Message: Refunded $5.00 from sellUser to buyUser.
+Credit Refunded: Yes
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_19202610_114948\GENERAL\SUCCESS\GENERAL07\ACTUAL_OUTPUT.TXT
+Status: SUCCESS
+Message: Credit refunded.
+Credit Refunded: Yes
+*****
+
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\GENERAL\SUCCESS\GENERAL07\expected_output.txt
+Status: SUCCESS
+Message: Added $250.00 to fullUser. New credit: $2250.00.
+Credit Added: Yes
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_19202610_114948\GENERAL\SUCCESS\GENERAL07\ACTUAL_OUTPUT.TXT
+Status: SUCCESS
+Message: Added $250.00 to fullUser.
+Credit Added: Yes
+*****
+
+Comparing files C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\GENERAL\SUCCESS\GENERAL07\daily_transaction.txt and C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_19202610_114948\GENERAL\SUCCESS\GENERAL07\ACTUAL_DAILY_TRANSACTION.TXT
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\TESTCASES\GENERAL\SUCCESS\GENERAL07\daily_transaction.txt
+01 teamUser        SS 000000.00
+02 poorUser        FS 000005.00
+03 Team Game                 admin01         030.00
+04 Hollow Knight             sellUser        admin01         020.00
+05 buyUser         sellUser        000005.00
+06 fullUser        FS 000250.00
+00 admin01         AA 004980.00
+***** C:\USERS\MUHAM\ONEDRIVE\DOCUMENTS\SOFTWARE QA\SQACOURSEPROJECT\SCRIPTS\..\RESULTS\RUN_19202610_114948\GENERAL\SUCCESS\GENERAL07\ACTUAL_DAILY_TRANSACTION.TXT
+*****
+

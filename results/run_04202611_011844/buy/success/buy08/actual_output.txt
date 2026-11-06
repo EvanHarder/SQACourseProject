@@ -1,0 +1,19 @@
+Username: poorUser
+Status: SUCCESS
+Message: Welcome poorUser. Account type: full-standard. Credit: $5.00.
+Logged In: Yes
+
+Input: game: Five Dollar Game
+Status: FAILURE
+Message: Expected a line of the form 'gamename: <name>'.
+Game Purchased: No
+
+Line: seller: sellUser
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

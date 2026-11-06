@@ -1,0 +1,44 @@
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Input: email: newbie@example.com
+Status: FAILURE
+Message: Expected a line of the form 'type: <user type>'.
+Created: No
+
+Line: password: Passw0rd1
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: type: FS
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Amount: 100
+Status: FAILURE
+Message: Username not found.
+Credit Added: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
+
+Username: newbie
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

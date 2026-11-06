@@ -1,0 +1,49 @@
+Username: buyUser
+Status: FAILURE
+Message: Unknown username.
+Logged In: No
+
+Transaction: buy
+Status: FAILURE
+Message: You must log in first.
+Game Purchased: No
+
+Line: game: Expensive Game
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: seller: admin02
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: addcredit
+Status: FAILURE
+Message: You must log in first.
+Credit Added: No
+
+Line: amount: 600
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: buy
+Status: FAILURE
+Message: You must log in first.
+Game Purchased: No
+
+Line: game: Expensive Game
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Line: seller: admin02
+Status: FAILURE
+Message: Invalid input format.
+Transaction Accepted: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No
