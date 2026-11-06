@@ -1,4 +1,3 @@
-
 /*
  * TransactionHandler.cpp
  *
@@ -12,28 +11,29 @@
 #include "transactions/TransactionHandler.h"
 #include "data/FormatUtils.h"
 
-#include <cmath>      
-#include <iomanip>    
+#include <cmath>
+#include <iomanip>
 #include <sstream>
-#include <cstddef>    
-#include <cstdlib>    
+#include <cstddef>
+#include <cstdlib>
 #include <string>
-#include <vector>    
+#include <vector>
 namespace {
 
-    // Limits 
+    // Limits
     const std::size_t MAX_USERNAME_LENGTH  = 15;
     const std::size_t MAX_GAME_NAME_LENGTH = 25;
     const double MAX_GAME_PRICE      = 999.99;     // highest price for a game
     const double MAX_CREDIT          = 999999.00;  // highest account balance
     const double MAX_SESSION_CREDIT  = 1000.00;    // most addable per account per session
 
-    // Converts what the admin typed (a word or a code) into the two-letter type code 
+    // Converts what the admin typed into the two-letter type code.
+    // Only the exact codes are accepted: "fs" and "full-standard" are invalid.
     std::string toTypeCode(const std::string& text) {
-        if (text == "admin" || text == "AA")           return "AA";
-        if (text == "full-standard" || text == "FS")   return "FS";
-        if (text == "buy-standard" || text == "BS")    return "BS";
-        if (text == "sell-standard" || text == "SS")   return "SS";
+        if (text == "AA") return "AA";
+        if (text == "FS") return "FS";
+        if (text == "BS") return "BS";
+        if (text == "SS") return "SS";
         return "";
     }
 
@@ -44,6 +44,20 @@ namespace {
         if (code == "BS") return "buy-standard";
         if (code == "SS") return "sell-standard";
         return code;
+    }
+
+    // Value shown in the first line of a result block: blank input is shown as "(blank)".
+    std::string shownValue(const std::string& text) {
+        return text.empty() ? "(blank)" : text;
+    }
+
+    // True for every transaction code the system recognises.
+    bool isKnownTransaction(const std::string& code) {
+        return code == "login"     || code == "logout"    ||
+               code == "create"    || code == "delete"    ||
+               code == "sell"      || code == "buy"       ||
+               code == "refund"    || code == "addcredit" ||
+               code == "list"      || code == "listaccounts";
     }
 
     // Converts price text such as "15" or "15.00" into a number.
@@ -59,7 +73,7 @@ namespace {
         for (char character : text) {
             if (character == '.') {
                 if (seenPoint) {
-                    return false;          
+                    return false;
                 }
                 seenPoint = true;
             }
@@ -70,7 +84,7 @@ namespace {
                 }
             }
             else {
-                return false;               
+                return false;
             }
         }
 
@@ -96,9 +110,9 @@ namespace {
     std::string outcomeLabelFor(const std::string& code) {
         if (code == "login")        return "Logged In";
         if (code == "logout")       return "Logged Out";
-        if (code == "create")       return "Created";
-        if (code == "delete")       return "Deleted";
-        if (code == "sell")         return "ForSale";
+        if (code == "create")       return "Account Created";
+        if (code == "delete")       return "Account Deleted";
+        if (code == "sell")         return "Game Listed For Sale";
         if (code == "buy")          return "Game Purchased";
         if (code == "refund")       return "Credit Refunded";
         if (code == "addcredit")    return "Credit Added";
@@ -107,9 +121,9 @@ namespace {
         return "Transaction Accepted";
     }
 
-}  
+}
 
-// Constructor 
+// Constructor
 TransactionHandler::TransactionHandler(
     InputReader& reader,
     ResultPrinter& printer,
@@ -133,10 +147,18 @@ TransactionHandler::TransactionHandler(
 void TransactionHandler::handleTransaction(
     const std::string& transactionCode) {
 
+    // an unrecognised code is reported as invalid whether or not anyone is logged in.
+    if (!isKnownTransaction(transactionCode)) {
+        resultPrinter.printResult(
+            "Transaction", shownValue(transactionCode), false,
+            "Invalid transaction.", outcomeLabelFor(transactionCode));
+        return;
+    }
+
     if (transactionCode != "login" && !session.isLoggedIn()) {
         resultPrinter.printResult(
             "Transaction", transactionCode, false,
-            "You must log in first.", outcomeLabelFor(transactionCode));
+            "Authentication required before proceeding.", outcomeLabelFor(transactionCode));
         return;
     }
 
@@ -176,11 +198,6 @@ void TransactionHandler::handleTransaction(
     }
     else if (transactionCode == "listaccounts") {
         handleListAccounts();
-    }
-    else {
-        resultPrinter.printResult(
-            "Transaction", transactionCode, false,
-            "Invalid transaction.", outcomeLabelFor(transactionCode));
     }
 }
 
@@ -232,7 +249,7 @@ void TransactionHandler::handleLogin() {
     if (session.isLoggedIn()) {
         resultPrinter.printResult(
             "Transaction", "login", false,
-            "A user is already logged in.", outcomeLabelFor("login"));
+            "Already logged in.", outcomeLabelFor("login"));
         return;
     }
 
@@ -256,8 +273,8 @@ void TransactionHandler::handleLogin() {
     }
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", username, false,
-            "Expected a line of the form 'username: <name>'.", outcomeLabelFor("login"));
+            "Transaction", "login", false,
+            "Invalid input format.", outcomeLabelFor("login"));
         return;
     }
 
@@ -265,8 +282,8 @@ void TransactionHandler::handleLogin() {
     User* user = userAccounts.findUser(username);
     if (user == nullptr) {
         resultPrinter.printResult(
-            "Username", username, false,
-            "Unknown username.", outcomeLabelFor("login"));
+            "Username", shownValue(username), false,
+            "Username not found.", outcomeLabelFor("login"));
         return;
     }
 
@@ -287,14 +304,14 @@ void TransactionHandler::handleLogin() {
         typeNameFor(user->permissions) + ". Credit: $" +
         formatMoney(user->balance) + ".",
         outcomeLabelFor("login"));
-    
+
 }
 
 void TransactionHandler::handleLogout() {
     if (!session.isLoggedIn()) {
         resultPrinter.printResult(
             "Transaction", "logout", false,
-            "No user is currently logged in.", outcomeLabelFor("logout"));
+            "Authentication required before proceeding.", outcomeLabelFor("logout"));
         return;
     }
 
@@ -307,7 +324,7 @@ void TransactionHandler::handleLogout() {
 
     // transactionLog.recordEndOfSession(
     //     username, session.getUserType(), user->balance);
-    
+
     // if (!transactionLog.outputTransactions()) {
     //     resultPrinter.printResult(
     //         "Username", username, false,
@@ -321,7 +338,7 @@ void TransactionHandler::handleLogout() {
         "Transaction", "logout", true,
         "Logout successful. Session transactions saved.",
         outcomeLabelFor("logout"));
-    }
+}
 
 void TransactionHandler::handleCreate() {
 
@@ -345,29 +362,73 @@ void TransactionHandler::handleCreate() {
 
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", newUsername, false,
-            "Expected a line of the form 'username: <name>'.", outcomeLabelFor("create"));
+            "Transaction", "create", false,
+            "Invalid input format.", outcomeLabelFor("create"));
         return;
     }
 
     // the new username is at most 15 characters (and not empty).
     if (newUsername.empty() || newUsername.size() > MAX_USERNAME_LENGTH) {
         resultPrinter.printResult(
+            "Username", shownValue(newUsername), false,
+            "Username must be 1 to 15 characters.", outcomeLabelFor("create"));
+        return;
+    }
+
+    // END is the end-of-file marker and cannot be used as a username.
+    if (newUsername == "END") {
+        resultPrinter.printResult(
             "Username", newUsername, false,
-            "Username must be 1 to 15 characters long.", outcomeLabelFor("create"));
+            "Username is reserved.", outcomeLabelFor("create"));
         return;
     }
 
     // the new username must differ from every current user.
-    if (newUsername == "END" || userAccounts.findUser(newUsername) != nullptr) {
+    // PLACEHOLDER: needs Session::isDeleted (a username deleted this session cannot be recreated)
+    if (userAccounts.findUser(newUsername) != nullptr /* || session.isDeleted(newUsername) */) {
         resultPrinter.printResult(
             "Username", newUsername, false,
-            "That username is already taken.", outcomeLabelFor("create"));
+            "Username already exists.", outcomeLabelFor("create"));
         return;
     }
 
-    // ask for the type of user (admin, full-standard, buy-standard,
-    // sell-standard).
+    // ask for the email.
+    std::string email;
+    status = inputReader.readField("email", email);
+
+    if (status == ReadStatus::EndOfInput) {
+        resultPrinter.printResult(
+            "Username", newUsername, false,
+            "Input ended before an email was given.", outcomeLabelFor("create"));
+        return;
+    }
+
+    if (status == ReadStatus::BadFormat) {
+        resultPrinter.printResult(
+            "Transaction", "create", false,
+            "Invalid input format.", outcomeLabelFor("create"));
+        return;
+    }
+
+    // ask for the password.
+    std::string password;
+    status = inputReader.readField("password", password);
+
+    if (status == ReadStatus::EndOfInput) {
+        resultPrinter.printResult(
+            "Username", newUsername, false,
+            "Input ended before a password was given.", outcomeLabelFor("create"));
+        return;
+    }
+
+    if (status == ReadStatus::BadFormat) {
+        resultPrinter.printResult(
+            "Transaction", "create", false,
+            "Invalid input format.", outcomeLabelFor("create"));
+        return;
+    }
+
+    // ask for the type of user (AA, FS, BS or SS).
     std::string typeText;
     status = inputReader.readField("type", typeText);
 
@@ -380,8 +441,8 @@ void TransactionHandler::handleCreate() {
 
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", typeText, false,
-            "Expected a line of the form 'type: <user type>'.", outcomeLabelFor("create"));
+            "Transaction", "create", false,
+            "Invalid input format.", outcomeLabelFor("create"));
         return;
     }
 
@@ -389,12 +450,12 @@ void TransactionHandler::handleCreate() {
     if (typeCode.empty()) {
         resultPrinter.printResult(
             "Username", newUsername, false,
-            "Type must be admin, full-standard, buy-standard or sell-standard.",
+            "Invalid user type.",
             outcomeLabelFor("create"));
         return;
     }
 
-    //PLACEHOLDER: needs UserAccounts::addUser 
+    //PLACEHOLDER: needs UserAccounts::addUser
     // userAccounts.addUser(newUsername, typeCode, 0.0);
 
     // saves this information to the daily transaction file (code 01).
@@ -403,7 +464,8 @@ void TransactionHandler::handleCreate() {
 
     resultPrinter.printResult(
         "Username", newUsername, true,
-        "User created.", outcomeLabelFor("create"));
+        "User " + newUsername + " created as " + typeNameFor(typeCode) + ".",
+        outcomeLabelFor("create"));
 
 }
 
@@ -428,8 +490,8 @@ void TransactionHandler::handleDelete() {
 
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", targetUsername, false,
-            "Expected a line of the form 'username: <name>'.", outcomeLabelFor("delete"));
+            "Transaction", "delete", false,
+            "Invalid input format.", outcomeLabelFor("delete"));
         return;
     }
 
@@ -437,7 +499,7 @@ void TransactionHandler::handleDelete() {
     if (targetUsername == session.getUsername()) {
         resultPrinter.printResult(
             "Username", targetUsername, false,
-            "You cannot delete the account you are logged in with.", outcomeLabelFor("delete"));
+            "Cannot delete the current user.", outcomeLabelFor("delete"));
         return;
     }
 
@@ -445,8 +507,8 @@ void TransactionHandler::handleDelete() {
     User* user = userAccounts.findUser(targetUsername);
     if (user == nullptr /* || session.isDeleted(targetUsername) */) {
         resultPrinter.printResult(
-            "Username", targetUsername, false,
-            "No such user exists.", outcomeLabelFor("delete"));
+            "Username", shownValue(targetUsername), false,
+            "Username not found.", outcomeLabelFor("delete"));
         return;
     }
 
@@ -472,13 +534,14 @@ void TransactionHandler::handleDelete() {
 
     resultPrinter.printResult(
         "Username", targetUsername, true,
-        "User deleted.", outcomeLabelFor("delete"));
+        "User " + targetUsername + " deleted. Their games are no longer for sale.",
+        outcomeLabelFor("delete"));
 }
 
 void TransactionHandler::handleSell() {
 
     // semi-privileged, accepted for every account type except buy-standard (BS). The dispatcher already checks this
-        if (session.getUserType() == "BS") {
+    if (session.getUserType() == "BS") {
         resultPrinter.printResult(
             "Transaction", "sell", false,
             "Permission denied.", outcomeLabelFor("sell"));
@@ -486,8 +549,8 @@ void TransactionHandler::handleSell() {
     }
 
     // ask for the game name.
-    std::string gameName;
-    ReadStatus status = inputReader.readField("gamename", gameName);
+    std::string game;
+    ReadStatus status = inputReader.readField("game", game);
 
     if (status == ReadStatus::EndOfInput) {
         resultPrinter.printResult(
@@ -498,24 +561,32 @@ void TransactionHandler::handleSell() {
 
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", gameName, false,
-            "Expected a line of the form 'gamename: <name>'.", outcomeLabelFor("sell"));
+            "Transaction", "sell", false,
+            "Invalid input format.", outcomeLabelFor("sell"));
         return;
     }
 
     //  the game name is at most 25 characters, and not empty.
-    if (gameName.empty() || gameName.size() > MAX_GAME_NAME_LENGTH) {
+    if (game.empty() || game.size() > MAX_GAME_NAME_LENGTH) {
         resultPrinter.printResult(
-            "Game", gameName, false,
-            "Game name must be 1 to 25 characters long.", outcomeLabelFor("sell"));
+            "Game", shownValue(game), false,
+            "Game name must be 1 to 25 characters.", outcomeLabelFor("sell"));
+        return;
+    }
+
+    // END is the end-of-file marker and cannot be used as a game name.
+    if (game == "END") {
+        resultPrinter.printResult(
+            "Game", game, false,
+            "Game name is reserved.", outcomeLabelFor("sell"));
         return;
     }
 
     // all games must have unique names.
-    if (gameName == "END" || availableGames.findGameByName(gameName) != nullptr) {
+    if (availableGames.findGameByName(game) != nullptr) {
         resultPrinter.printResult(
-            "Game", gameName, false,
-            "A game with that name already exists.", outcomeLabelFor("sell"));
+            "Game", game, false,
+            "Game name already exists.", outcomeLabelFor("sell"));
         return;
     }
 
@@ -525,56 +596,57 @@ void TransactionHandler::handleSell() {
 
     if (status == ReadStatus::EndOfInput) {
         resultPrinter.printResult(
-            "Game", gameName, false,
+            "Game", game, false,
             "Input ended before a price was given.", outcomeLabelFor("sell"));
         return;
     }
 
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", priceText, false,
-            "Expected a line of the form 'price: <dollars>'.", outcomeLabelFor("sell"));
+            "Transaction", "sell", false,
+            "Invalid input format.", outcomeLabelFor("sell"));
         return;
     }
 
     double price = 0.0;
     if (!parsePrice(priceText, price)) {
         resultPrinter.printResult(
-            "Price", priceText, false,
-            "Price must be a number in dollars, e.g. 15.00.", outcomeLabelFor("sell"));
+            "Game", game, false,
+            "Invalid price.", outcomeLabelFor("sell"));
         return;
     }
 
     // the maximum price for a game is 999.99.
-    if (price > MAX_GAME_PRICE) {
+    if (toCents(price) > toCents(MAX_GAME_PRICE)) {
         resultPrinter.printResult(
-            "Price", priceText, false,
-            "Price cannot be more than 999.99.", outcomeLabelFor("sell"));
+            "Game", game, false,
+            "Price must not exceed 999.99.", outcomeLabelFor("sell"));
         return;
     }
 
-    // Apply the change: the seller is the logged-in user. 
+    // Apply the change: the seller is the logged-in user.
     // PLACEHOLDER: needs AvailableGames::addGame
-    // availableGames.addGame(gameName, session.getUsername(), price);
+    // availableGames.addGame(game, session.getUsername(), price);
 
     // no further transactions on a new game until the next session.
     // Remembering the name in the session lets buy refuse it.
     // PLACEHOLDER: needs Session::markNewGame
-    // session.markNewGame(gameName);
+    // session.markNewGame(game);
 
     // saves this information to the daily transaction file (code 03).
     // PLACEHOLDER: needs TransactionLog::recordSell
-    // transactionLog.recordSell(gameName, session.getUsername(), price);
+    // transactionLog.recordSell(game, session.getUsername(), price);
 
     resultPrinter.printResult(
-        "Game", gameName, true,
-        "Game put up for sale.", outcomeLabelFor("sell"));
+        "Game", game, true,
+        game + " is now for sale at $" + formatMoney(price) + ".",
+        outcomeLabelFor("sell"));
 }
 
 void TransactionHandler::handleBuy() {
-    
+
     // semi-privileged, accepted for every account type except
-    // sell-standard (SS). 
+    // sell-standard (SS).
     if (session.getUserType() == "SS") {
         resultPrinter.printResult(
             "Transaction", "buy", false,
@@ -583,8 +655,8 @@ void TransactionHandler::handleBuy() {
     }
 
     // ask for the game name.
-    std::string gameName;
-    ReadStatus status = inputReader.readField("gamename", gameName);
+    std::string game;
+    ReadStatus status = inputReader.readField("game", game);
 
     if (status == ReadStatus::EndOfInput) {
         resultPrinter.printResult(
@@ -595,8 +667,27 @@ void TransactionHandler::handleBuy() {
 
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", gameName, false,
-            "Expected a line of the form 'gamename: <name>'.", outcomeLabelFor("buy"));
+            "Transaction", "buy", false,
+            "Invalid input format.", outcomeLabelFor("buy"));
+        return;
+    }
+
+    // no transactions on a game listed this session.
+    // PLACEHOLDER: needs Session::isNewGame
+    // if (session.isNewGame(game)) {
+    //     resultPrinter.printResult(
+    //         "Game", gameName, false,
+    //         "Game is not available until the next session.", outcomeLabelFor("buy"));
+    //     return;
+    // }
+
+    // the game name must be an existing game. A game whose seller was deleted this session counts as not found.
+    // PLACEHOLDER: needs Session::isDeleted
+    const Game* gameEntry = availableGames.findGameByName(game);
+    if (gameEntry == nullptr /* || session.isDeleted(gameEntry->seller) */) {
+        resultPrinter.printResult(
+            "Game", game, false,
+            "Game not found.", outcomeLabelFor("buy"));
         return;
     }
 
@@ -606,72 +697,56 @@ void TransactionHandler::handleBuy() {
 
     if (status == ReadStatus::EndOfInput) {
         resultPrinter.printResult(
-            "Game", gameName, false,
+            "Game", game, false,
             "Input ended before a seller was given.", outcomeLabelFor("buy"));
         return;
     }
 
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", sellerName, false,
-            "Expected a line of the form 'seller: <name>'.", outcomeLabelFor("buy"));
+            "Transaction", "buy", false,
+            "Invalid input format.", outcomeLabelFor("buy"));
         return;
     }
 
-    // the game name must be an existing game.
-    const Game* game = availableGames.findGameByName(gameName);
-    if (game == nullptr) {
+    // the seller must be the one selling this game.
+    if (gameEntry->seller != sellerName) {
         resultPrinter.printResult(
-            "Game", gameName, false,
-            "No such game is for sale.", outcomeLabelFor("buy"));
+            "Game", game, false,
+            "Seller does not match this game.", outcomeLabelFor("buy"));
         return;
     }
 
-   if (game->seller != sellerName) {
-       resultPrinter.printResult(
-           "Game", gameName, false,
-           "No such game is for sale by that seller.", outcomeLabelFor("buy"));
-       return;
-   }
     // a user cannot buy their own game.
     if (sellerName == session.getUsername()) {
         resultPrinter.printResult(
-            "Game", gameName, false,
+            "Game", game, false,
             "You cannot buy your own game.", outcomeLabelFor("buy"));
         return;
     }
-
-    //no transactions on a game listed this session, or on a game whose seller was deleted this session. 
-    // PLACEHOLDER: needs Session::isNewGame and Session::isDeleted 
-    // if (session.isNewGame(gameName) || session.isDeleted(sellerName)) {
-    //     resultPrinter.printResult(
-    //         "Game", gameName, false,
-    //         "That game cannot be bought in this session.", outcomeLabelFor("buy"));
-    //     return;
-    // }
 
     User* buyer  = userAccounts.findUser(session.getUsername());
     User* seller = userAccounts.findUser(sellerName);
     if (buyer == nullptr || seller == nullptr) {
         resultPrinter.printResult(
-            "Game", gameName, false,
+            "Game", game, false,
             "Buyer and seller must be current users.", outcomeLabelFor("buy"));
         return;
     }
 
     // the buyer must have enough money to buy the game.
-    double price = game->price;
+    double price = gameEntry->price;
     if (toCents(buyer->balance) < toCents(price)) {
         resultPrinter.printResult(
-            "Game", gameName, false,
-            "Not enough credit to buy this game.", outcomeLabelFor("buy"));
+            "Game", game, false,
+            "Insufficient credit.", outcomeLabelFor("buy"));
         return;
     }
 
     // the buyer must not already have a copy in their collection.
-    if (gameCollection.userOwnsGame(session.getUsername(), gameName)) {
+    if (gameCollection.userOwnsGame(session.getUsername(), game)) {
         resultPrinter.printResult(
-            "Game", gameName, false,
+            "Game", game, false,
             "You already own this game.", outcomeLabelFor("buy"));
         return;
     }
@@ -679,23 +754,29 @@ void TransactionHandler::handleBuy() {
     // the seller's balance must not go over the 999,999.00 maximum.
     if (toCents(seller->balance) + toCents(price) > toCents(MAX_CREDIT)) {
         resultPrinter.printResult(
-            "Game", gameName, false,
+            "Game", game, false,
             "Seller credit would exceed 999999.00.", outcomeLabelFor("buy"));
         return;
     }
 
+    // work out the buyer's remaining credit before the balances change.
+    double remainingCredit = buyer->balance - price;
+
     // add the game to the buyer's collection, credit the seller and deduct the same amount from the buyer.
-    gameCollection.addGameToUser(session.getUsername(), gameName);
+    gameCollection.addGameToUser(session.getUsername(), game);
     userAccounts.updateBalance(sellerName, seller->balance + price);
     userAccounts.updateBalance(session.getUsername(), buyer->balance - price);
 
     // saves this information to the daily transaction file (code 04).
     // PLACEHOLDER: needs TransactionLog::recordBuy
-    // transactionLog.recordBuy(gameName, sellerName, session.getUsername(), price);
+    // transactionLog.recordBuy(game, sellerName, session.getUsername(), price);
 
     resultPrinter.printResult(
-        "Game", gameName, true,
-        "Game purchased.", outcomeLabelFor("buy"));
+        "Game", game, true,
+        "Purchased " + game + " from " + sellerName + " for $" +
+        formatMoney(price) + ". Remaining credit: $" +
+        formatMoney(remainingCredit) + ".",
+        outcomeLabelFor("buy"));
 }
 
 
@@ -721,8 +802,17 @@ void TransactionHandler::handleRefund() {
 
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", buyerName, false,
-            "Expected a line of the form 'buyer: <name>'.", outcomeLabelFor("refund"));
+            "Transaction", "refund", false,
+            "Invalid input format.", outcomeLabelFor("refund"));
+        return;
+    }
+
+    // the buyer must be a current user (checked before the seller is asked for).
+    User* buyer = userAccounts.findUser(buyerName);
+    if (buyer == nullptr /* || session.isDeleted(buyerName) */) {
+        resultPrinter.printResult(
+            "Buyer", shownValue(buyerName), false,
+            "Buyer not found.", outcomeLabelFor("refund"));
         return;
     }
 
@@ -739,8 +829,25 @@ void TransactionHandler::handleRefund() {
 
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", sellerName, false,
-            "Expected a line of the form 'seller: <name>'.", outcomeLabelFor("refund"));
+            "Transaction", "refund", false,
+            "Invalid input format.", outcomeLabelFor("refund"));
+        return;
+    }
+
+    // buyer and seller must be different users.
+    if (buyerName == sellerName) {
+        resultPrinter.printResult(
+            "Buyer", buyerName, false,
+            "Buyer and seller cannot be identical.", outcomeLabelFor("refund"));
+        return;
+    }
+
+    // the seller must be a current user (checked before the amount is asked for).
+    User* seller = userAccounts.findUser(sellerName);
+    if (seller == nullptr /* || session.isDeleted(sellerName) */) {
+        resultPrinter.printResult(
+            "Buyer", buyerName, false,
+            "Seller not found.", outcomeLabelFor("refund"));
         return;
     }
 
@@ -757,16 +864,8 @@ void TransactionHandler::handleRefund() {
 
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", amountText, false,
-            "Expected a line of the form 'amount: <dollars>'.", outcomeLabelFor("refund"));
-        return;
-    }
-
-    // buyer and seller must be different users.
-    if (buyerName == sellerName) {
-        resultPrinter.printResult(
-            "Buyer", buyerName, false,
-            "Buyer and seller must be different users.", outcomeLabelFor("refund"));
+            "Transaction", "refund", false,
+            "Invalid input format.", outcomeLabelFor("refund"));
         return;
     }
 
@@ -776,23 +875,6 @@ void TransactionHandler::handleRefund() {
         resultPrinter.printResult(
             "Buyer", buyerName, false,
             "Invalid amount.", outcomeLabelFor("refund"));
-        return;
-    }
-
-    // buyer and seller both must be current users.
-    User* buyer = userAccounts.findUser(buyerName);
-    if (buyer == nullptr /* || session.isDeleted(buyerName) */) {
-        resultPrinter.printResult(
-            "Buyer", buyerName, false,
-            "Buyer must be a current user.", outcomeLabelFor("refund"));
-        return;
-    }
-
-    User* seller = userAccounts.findUser(sellerName);
-    if (seller == nullptr /* || session.isDeleted(sellerName) */) {
-        resultPrinter.printResult(
-            "Buyer", buyerName, false,
-            "Seller must be a current user.", outcomeLabelFor("refund"));
         return;
     }
 
@@ -822,7 +904,9 @@ void TransactionHandler::handleRefund() {
 
     resultPrinter.printResult(
         "Buyer", buyerName, true,
-        "Credit refunded.", outcomeLabelFor("refund"));
+        "Refunded $" + formatMoney(amount) + " from " + sellerName +
+        " to " + buyerName + ".",
+        outcomeLabelFor("refund"));
 }
 
 // Handles the addcredit transaction: asks for an amount (and, for an admin, the account to credit), validates it, then adds the credit and records it.
@@ -838,10 +922,31 @@ void TransactionHandler::handleAddCredit() {
             "Input ended before an amount was given.", outcomeLabelFor("addcredit"));
         return;
     }
+
     if (status == ReadStatus::BadFormat) {
         resultPrinter.printResult(
-            "Input", amountText, false,
-            "Expected a line of the form 'amount: <dollars>'.", outcomeLabelFor("addcredit"));
+            "Transaction", "addcredit", false,
+            "Invalid input format.", outcomeLabelFor("addcredit"));
+        return;
+    }
+
+    // "abc", "-50" and "10.555" are all rejected by parsePrice
+    // zero is rejected because adding nothing is meaningless.
+    // This is checked before the username is asked for, so a bad amount never prompts for one.
+    double amount = 0.0;
+    if (!parsePrice(amountText, amount) || amount <= 0.0) {
+        resultPrinter.printResult(
+            "Amount", shownValue(amountText), false,
+            "Invalid amount.", outcomeLabelFor("addcredit"));
+        return;
+    }
+
+    // at most $1000.00 in a single transaction (the per-session total is below).
+    if (toCents(amount) > toCents(MAX_SESSION_CREDIT)) {
+        resultPrinter.printResult(
+            "Amount", amountText, false,
+            "Session limit of $1000.00 exceeded for this account.",
+            outcomeLabelFor("addcredit"));
         return;
     }
 
@@ -858,22 +963,13 @@ void TransactionHandler::handleAddCredit() {
                 "Input ended before a username was given.", outcomeLabelFor("addcredit"));
             return;
         }
+
         if (status == ReadStatus::BadFormat) {
             resultPrinter.printResult(
-                "Input", targetName, false,
-                "Expected a line of the form 'username: <name>'.", outcomeLabelFor("addcredit"));
+                "Transaction", "addcredit", false,
+                "Invalid input format.", outcomeLabelFor("addcredit"));
             return;
         }
-    }
-
-    // "abc", "-50" and "10.555" are all rejected by parsePrice
-    // zero is rejected because adding nothing is meaningless.
-    double amount = 0.0;
-    if (!parsePrice(amountText, amount) || amount <= 0.0) {
-        resultPrinter.printResult(
-            "Amount", amountText, false,
-            "Invalid amount.", outcomeLabelFor("addcredit"));
-        return;
     }
 
     // the username must be an existing user.
@@ -885,8 +981,8 @@ void TransactionHandler::handleAddCredit() {
         return;
     }
 
-    // PLACEHOLDER: needs Session::getCreditAddedCents 
-    // at most $1000.00 per account per session. 
+    // PLACEHOLDER: needs Session::getCreditAddedCents
+    // at most $1000.00 per account per session (cumulative).
     // if (session.getCreditAddedCents(targetName) + toCents(amount)
     //         > toCents(MAX_SESSION_CREDIT)) {
     //     resultPrinter.printResult(
@@ -904,19 +1000,23 @@ void TransactionHandler::handleAddCredit() {
         return;
     }
 
-    // Apply the change (the pointer sees the updated balance afterwards).
-    userAccounts.updateBalance(targetName, target->balance + amount);
+    // work out the new balance before the change is applied.
+    double newCredit = target->balance + amount;
+
+    // Apply the change.
+    userAccounts.updateBalance(targetName, newCredit);
 
     // PLACEHOLDER: needs Session::recordCreditAdded
     // session.recordCreditAdded(targetName, toCents(amount));
 
     // saves this information to the daily transaction file (code 06).
-    // PLACEHOLDER: needs TransactionLog::recordAddCredit 
-    // transactionLog.recordAddCredit(targetName, target->permissions, target->balance);
+    // PLACEHOLDER: needs TransactionLog::recordAddCredit
+    // transactionLog.recordAddCredit(targetName, target->permissions, amount);
 
     resultPrinter.printResult(
             "Amount", amountText, true,
-            "Added $" + formatMoney(amount) + " to " + targetName + ".",
+            "Added $" + formatMoney(amount) + " to " + targetName +
+            ". New credit: $" + formatMoney(newCredit) + ".",
             outcomeLabelFor("addcredit"));
 }
 
@@ -925,12 +1025,19 @@ void TransactionHandler::handleList() {
 
     const std::vector<Game>& games = availableGames.getAllGames();
 
+    if (games.empty()) {
+        resultPrinter.printResult(
+            "Transaction", "list", true,
+            "No games are currently for sale.", outcomeLabelFor("list"));
+        return;
+    }
+
     std::string message = std::to_string(games.size()) +
         (games.size() == 1 ? " game" : " games") + " available for sale.";
 
     for (const Game& game : games) {
         message += "\nGame: " + game.name +
-                   " | Seller: " + game.seller +   
+                   " | Seller: " + game.seller +
                    " | Price: $" + formatMoney(game.price);
     }
 
@@ -939,10 +1046,10 @@ void TransactionHandler::handleList() {
 
 }
 
-// Handles the listaccounts transaction: prints every active account with its username, user type and credit. Admin only. 
+// Handles the listaccounts transaction: prints every active account with its username, user type and credit. Admin only.
 void TransactionHandler::handleListAccounts() {
 
-    // privileged transaction, admin only. 
+    // privileged transaction, admin only.
     if (!session.isAdmin()) {
         resultPrinter.printResult(
             "Transaction", "listaccounts", false,
