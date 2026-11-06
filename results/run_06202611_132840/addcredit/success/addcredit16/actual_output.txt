@@ -1,0 +1,14 @@
+Username: sellUser
+Status: SUCCESS
+Message: Welcome sellUser. Account type: sell-standard. Credit: $100.00.
+Logged In: Yes
+
+Amount: 10
+Status: SUCCESS
+Message: Added $10.00 to sellUser. New credit: $110.00.
+Credit Added: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

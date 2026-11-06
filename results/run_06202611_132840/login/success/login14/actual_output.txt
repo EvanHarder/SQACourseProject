@@ -1,0 +1,9 @@
+Username: Jane Doe
+Status: SUCCESS
+Message: Welcome Jane Doe. Account type: full-standard. Credit: $250.00.
+Logged In: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

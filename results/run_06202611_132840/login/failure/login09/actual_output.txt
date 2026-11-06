@@ -1,0 +1,24 @@
+Username: fullUser
+Status: SUCCESS
+Message: Welcome fullUser. Account type: full-standard. Credit: $2000.00.
+Logged In: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
+
+Transaction: buy
+Status: FAILURE
+Message: You must log in first.
+Game Purchased: No
+
+Transaction: list
+Status: FAILURE
+Message: You must log in first.
+Games Listed: No
+
+Transaction: logout
+Status: FAILURE
+Message: You must log in first.
+Logged Out: No

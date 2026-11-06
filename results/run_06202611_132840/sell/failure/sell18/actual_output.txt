@@ -1,0 +1,19 @@
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Game: Fresh Game
+Status: SUCCESS
+Message: Fresh Game is now for sale at $10.00.
+Game Listed For Sale: Yes
+
+Game: Fresh Game
+Status: FAILURE
+Message: Game is not available until the next session.
+Game Purchased: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

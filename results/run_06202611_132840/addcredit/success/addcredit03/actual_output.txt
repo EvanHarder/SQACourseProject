@@ -1,0 +1,14 @@
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Amount: 50.00
+Status: SUCCESS
+Message: Added $50.00 to admin01. New credit: $5050.00.
+Credit Added: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
