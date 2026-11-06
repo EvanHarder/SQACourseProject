@@ -320,17 +320,14 @@ void TransactionHandler::handleLogout() {
     // Write out the daily transaction file.
     User* user = userAccounts.findUser(username);
 
-    // PLACEHOLDER: needs TransactionLog::recordEndOfSession
+    transactionLog.recordEndOfSession(username, session.getUserType(), user->balance);
 
-    // transactionLog.recordEndOfSession(
-    //     username, session.getUserType(), user->balance);
-
-    // if (!transactionLog.outputTransactions()) {
-    //     resultPrinter.printResult(
-    //         "Username", username, false,
-    //         "Could not write the daily transaction file.", outcomeLabelFor("logout"));
-    //     return;
-    // }
+    if (!transactionLog.outputTransactions()) {
+        resultPrinter.printResult(
+            "Username", username, false,
+            "Could not write the daily transaction file.", outcomeLabelFor("logout"));
+        return;
+    }
 
     session.end();
 
@@ -458,9 +455,7 @@ void TransactionHandler::handleCreate() {
     //PLACEHOLDER: needs UserAccounts::addUser
     // userAccounts.addUser(newUsername, typeCode, 0.0);
 
-    // saves this information to the daily transaction file (code 01).
-    // PLACEHOLDER: needs TransactionLog::recordCreate
-    // transactionLog.recordCreate(newUsername, typeCode, 0.0);
+    transactionLog.recordCreate(newUsername, typeCode, 0.0);
 
     resultPrinter.printResult(
         "Username", newUsername, true,
@@ -528,9 +523,7 @@ void TransactionHandler::handleDelete() {
     //PLACEHOLDER: needs Session::markDeleted
     // session.markDeleted(targetUsername);
 
-    // save this information to the daily transaction file (code 02).
-    // PLACEHOLDER: needs TransactionLog::recordDelete
-    // transactionLog.recordDelete(targetUsername, deletedType, deletedCredit);
+    transactionLog.recordDelete(targetUsername, deletedType, deletedCredit);
 
     resultPrinter.printResult(
         "Username", targetUsername, true,
@@ -633,9 +626,7 @@ void TransactionHandler::handleSell() {
     // PLACEHOLDER: needs Session::markNewGame
     // session.markNewGame(game);
 
-    // saves this information to the daily transaction file (code 03).
-    // PLACEHOLDER: needs TransactionLog::recordSell
-    // transactionLog.recordSell(game, session.getUsername(), price);
+    transactionLog.recordSell(game, session.getUsername(), price);
 
     resultPrinter.printResult(
         "Game", game, true,
@@ -767,9 +758,7 @@ void TransactionHandler::handleBuy() {
     userAccounts.updateBalance(sellerName, seller->balance + price);
     userAccounts.updateBalance(session.getUsername(), buyer->balance - price);
 
-    // saves this information to the daily transaction file (code 04).
-    // PLACEHOLDER: needs TransactionLog::recordBuy
-    // transactionLog.recordBuy(game, sellerName, session.getUsername(), price);
+    transactionLog.recordBuy(game, sellerName, session.getUsername(), price);
 
     resultPrinter.printResult(
         "Game", game, true,
@@ -898,9 +887,7 @@ void TransactionHandler::handleRefund() {
     userAccounts.updateBalance(sellerName, seller->balance - amount);
     userAccounts.updateBalance(buyerName, buyer->balance + amount);
 
-    // saves this information to the daily transaction file (code 05).
-    // PLACEHOLDER: needs TransactionLog::recordRefund
-    // transactionLog.recordRefund(buyerName, sellerName, amount);
+    transactionLog.recordRefund(buyerName, sellerName, amount);
 
     resultPrinter.printResult(
         "Buyer", buyerName, true,
@@ -1009,9 +996,7 @@ void TransactionHandler::handleAddCredit() {
     // PLACEHOLDER: needs Session::recordCreditAdded
     // session.recordCreditAdded(targetName, toCents(amount));
 
-    // saves this information to the daily transaction file (code 06).
-    // PLACEHOLDER: needs TransactionLog::recordAddCredit
-    // transactionLog.recordAddCredit(targetName, target->permissions, amount);
+    transactionLog.recordAddCredit(targetName, target->permissions, amount);
 
     resultPrinter.printResult(
             "Amount", amountText, true,

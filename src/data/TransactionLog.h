@@ -9,29 +9,30 @@
 #ifndef TRANSACTION_LOG_H
 #define TRANSACTION_LOG_H
 
+#include <cstddef>
 #include <string>
 #include <vector>
 
-// One successful transaction waiting to be written to the daily transaction file.
-struct Transaction {
-    std::string username;   // user the transaction belongs to
-    std::string gameName;   // game involved, if any
-    double amount;          // money involved in dollars
-};
-
 class TransactionLog {
 private:
-    std::vector<Transaction> sessionTransactions;   // transactions recorded this session, in order
-    std::string dailyLogFilename;                   // path of the daily transaction file
+    std::vector<std::string> sessionTransactions;
+    std::string dailyLogFilename;
+    mutable std::size_t writtenTransactions = 0;
 
 public:
     // Stores the path of the daily transaction file; nothing is written yet.
     explicit TransactionLog(std::string logFilename);
 
-    // Adds one successful transaction to the list for this session.
-    void recordTransaction(const std::string& username, const std::string& gameName, double amount);
+    void recordCreate(const std::string& username, const std::string& userType, double credit);
+    void recordDelete(const std::string& username, const std::string& userType, double credit);
+    void recordSell(const std::string& gameName, const std::string& seller, double price);
+    void recordBuy(const std::string& gameName, const std::string& seller,
+                   const std::string& buyer, double price);
+    void recordRefund(const std::string& buyer, const std::string& seller, double credit);
+    void recordAddCredit(const std::string& username, const std::string& userType, double credit);
+    void recordEndOfSession(const std::string& username, const std::string& userType, double credit);
 
-    // Appends every recorded transaction to the daily transaction file; returns false if it cannot be opened.
+    // Appends newly recorded transactions; returns false if writing fails.
     bool outputTransactions() const;
 };
 
