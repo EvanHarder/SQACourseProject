@@ -1,11 +1,9 @@
 /*
  * TransactionHandler.cpp
  *
- * Implements the transaction dispatching structure for the
- * Digital Games Distribution System.
- *
- * Account and game operations will be connected when the
- * data classes are available.
+ * Implements the transactions of the Digital Games Distribution System:
+ * checks login and permissions, reads each transaction's fields, applies its
+ * rules, records it for the daily transaction file and prints the result.
  */
 
 #include "transactions/TransactionHandler.h"
@@ -158,7 +156,7 @@ void TransactionHandler::handleTransaction(
     if (transactionCode != "login" && !session.isLoggedIn()) {
         resultPrinter.printResult(
             "Transaction", transactionCode, false,
-            "Authentication required before proceeding.", outcomeLabelFor(transactionCode));
+            "You must log in first.", outcomeLabelFor(transactionCode));
         return;
     }
 
@@ -311,16 +309,16 @@ void TransactionHandler::handleLogout() {
     if (!session.isLoggedIn()) {
         resultPrinter.printResult(
             "Transaction", "logout", false,
-            "Authentication required before proceeding.", outcomeLabelFor("logout"));
+            "You must log in first.", outcomeLabelFor("logout"));
         return;
     }
 
     std::string username = session.getUsername();
 
-    // Write out the daily transaction file.
+    // Write out the daily transaction file, ending with the end of session (00) line.
     User* user = userAccounts.findUser(username);
-
-    transactionLog.recordEndOfSession(username, session.getUserType(), user->balance);
+    double credit = user != nullptr ? user->balance : 0.0;
+    transactionLog.recordEndOfSession(username, session.getUserType(), credit);
 
     if (!transactionLog.outputTransactions()) {
         resultPrinter.printResult(
@@ -381,8 +379,8 @@ void TransactionHandler::handleCreate() {
     }
 
     // the new username must differ from every current user.
-    // PLACEHOLDER: needs Session::isDeleted (a username deleted this session cannot be recreated)
-    if (userAccounts.findUser(newUsername) != nullptr /* || session.isDeleted(newUsername) */) {
+    // a username deleted this session cannot be recreated until the next session.
+    if (userAccounts.findUser(newUsername) != nullptr || session.isDeleted(newUsername)) {
         resultPrinter.printResult(
             "Username", newUsername, false,
             "Username already exists.", outcomeLabelFor("create"));
@@ -452,9 +450,8 @@ void TransactionHandler::handleCreate() {
         return;
     }
 
-    //PLACEHOLDER: needs UserAccounts::addUser
-    // userAccounts.addUser(newUsername, typeCode, 0.0);
-
+    // add the new account, then save it for the daily transaction file (code 01).
+    userAccounts.addUser(newUsername, typeCode, 0.0);
     transactionLog.recordCreate(newUsername, typeCode, 0.0);
 
     resultPrinter.printResult(
@@ -500,7 +497,7 @@ void TransactionHandler::handleDelete() {
 
     //  the username must be the name of an existing user. A user already deleted earlier in this session no longer counts as existing.
     User* user = userAccounts.findUser(targetUsername);
-    if (user == nullptr /* || session.isDeleted(targetUsername) */) {
+    if (user == nullptr || session.isDeleted(targetUsername)) {
         resultPrinter.printResult(
             "Username", shownValue(targetUsername), false,
             "Username not found.", outcomeLabelFor("delete"));
@@ -511,18 +508,13 @@ void TransactionHandler::handleDelete() {
     std::string deletedType = user->permissions;
     double deletedCredit = user->balance;
 
-    // cancel any games the user has for sale.
-    // PLACEHOLDER: needs AvailableGames::removeGamesBySeller
-    // availableGames.removeGamesBySeller(targetUsername);
+    // cancel any games the user has for sale, remove the account, and block further
+    // transactions on the deleted user for the rest of the session.
+    availableGames.removeGamesBySeller(targetUsername);
+    userAccounts.removeUser(targetUsername);
+    session.markDeleted(targetUsername);
 
-    // remove the user account.
-    //PLACEHOLDER: needs UserAccounts::removeUser
-    // userAccounts.removeUser(targetUsername);
-
-    // no further transactions on the deleted user's inventory of games.
-    //PLACEHOLDER: needs Session::markDeleted
-    // session.markDeleted(targetUsername);
-
+    // save this information to the daily transaction file (code 02).
     transactionLog.recordDelete(targetUsername, deletedType, deletedCredit);
 
     resultPrinter.printResult(
@@ -618,14 +610,12 @@ void TransactionHandler::handleSell() {
     }
 
     // Apply the change: the seller is the logged-in user.
-    // PLACEHOLDER: needs AvailableGames::addGame
-    // availableGames.addGame(game, session.getUsername(), price);
+    availableGames.addGame(game, session.getUsername(), price);
 
     // no further transactions on a new game until the next session.
-    // Remembering the name in the session lets buy refuse it.
-    // PLACEHOLDER: needs Session::markNewGame
-    // session.markNewGame(game);
+    session.markNewGame(game);
 
+    // saves this information to the daily transaction file (code 03).
     transactionLog.recordSell(game, session.getUsername(), price);
 
     resultPrinter.printResult(
@@ -664,21 +654,27 @@ void TransactionHandler::handleBuy() {
     }
 
     // no transactions on a game listed this session.
-    // PLACEHOLDER: needs Session::isNewGame
-    // if (session.isNewGame(game)) {
-    //     resultPrinter.printResult(
-    //         "Game", gameName, false,
-    //         "Game is not available until the next session.", outcomeLabelFor("buy"));
-    //     return;
-    // }
+    if (session.isNewGame(game)) {
+        resultPrinter.printResult(
+            "Game", game, false,
+            "Game is not available until the next session.", outcomeLabelFor("buy"));
+        return;
+    }
 
     // the game name must be an existing game. A game whose seller was deleted this session counts as not found.
-    // PLACEHOLDER: needs Session::isDeleted
     const Game* gameEntry = availableGames.findGameByName(game);
-    if (gameEntry == nullptr /* || session.isDeleted(gameEntry->seller) */) {
+    if (gameEntry == nullptr || session.isDeleted(gameEntry->seller)) {
         resultPrinter.printResult(
             "Game", game, false,
             "Game not found.", outcomeLabelFor("buy"));
+        return;
+    }
+
+    // the buyer must not already have a copy in their collection (checked before the seller is asked for).
+    if (gameCollection.userOwnsGame(session.getUsername(), game)) {
+        resultPrinter.printResult(
+            "Game", game, false,
+            "You already own this game.", outcomeLabelFor("buy"));
         return;
     }
 
@@ -734,14 +730,6 @@ void TransactionHandler::handleBuy() {
         return;
     }
 
-    // the buyer must not already have a copy in their collection.
-    if (gameCollection.userOwnsGame(session.getUsername(), game)) {
-        resultPrinter.printResult(
-            "Game", game, false,
-            "You already own this game.", outcomeLabelFor("buy"));
-        return;
-    }
-
     // the seller's balance must not go over the 999,999.00 maximum.
     if (toCents(seller->balance) + toCents(price) > toCents(MAX_CREDIT)) {
         resultPrinter.printResult(
@@ -758,6 +746,7 @@ void TransactionHandler::handleBuy() {
     userAccounts.updateBalance(sellerName, seller->balance + price);
     userAccounts.updateBalance(session.getUsername(), buyer->balance - price);
 
+    // saves this information to the daily transaction file (code 04).
     transactionLog.recordBuy(game, sellerName, session.getUsername(), price);
 
     resultPrinter.printResult(
@@ -798,7 +787,7 @@ void TransactionHandler::handleRefund() {
 
     // the buyer must be a current user (checked before the seller is asked for).
     User* buyer = userAccounts.findUser(buyerName);
-    if (buyer == nullptr /* || session.isDeleted(buyerName) */) {
+    if (buyer == nullptr || session.isDeleted(buyerName)) {
         resultPrinter.printResult(
             "Buyer", shownValue(buyerName), false,
             "Buyer not found.", outcomeLabelFor("refund"));
@@ -827,13 +816,13 @@ void TransactionHandler::handleRefund() {
     if (buyerName == sellerName) {
         resultPrinter.printResult(
             "Buyer", buyerName, false,
-            "Buyer and seller cannot be identical.", outcomeLabelFor("refund"));
+            "Buyer and seller must be different users.", outcomeLabelFor("refund"));
         return;
     }
 
     // the seller must be a current user (checked before the amount is asked for).
     User* seller = userAccounts.findUser(sellerName);
-    if (seller == nullptr /* || session.isDeleted(sellerName) */) {
+    if (seller == nullptr || session.isDeleted(sellerName)) {
         resultPrinter.printResult(
             "Buyer", buyerName, false,
             "Seller not found.", outcomeLabelFor("refund"));
@@ -887,6 +876,7 @@ void TransactionHandler::handleRefund() {
     userAccounts.updateBalance(sellerName, seller->balance - amount);
     userAccounts.updateBalance(buyerName, buyer->balance + amount);
 
+    // saves this information to the daily transaction file (code 05).
     transactionLog.recordRefund(buyerName, sellerName, amount);
 
     resultPrinter.printResult(
@@ -961,23 +951,21 @@ void TransactionHandler::handleAddCredit() {
 
     // the username must be an existing user.
     User* target = userAccounts.findUser(targetName);
-    if (target == nullptr /* || session.isDeleted(targetName) */) {
+    if (target == nullptr || session.isDeleted(targetName)) {
         resultPrinter.printResult(
             "Amount", amountText, false,
             "Username not found.", outcomeLabelFor("addcredit"));
         return;
     }
 
-    // PLACEHOLDER: needs Session::getCreditAddedCents
     // at most $1000.00 per account per session (cumulative).
-    // if (session.getCreditAddedCents(targetName) + toCents(amount)
-    //         > toCents(MAX_SESSION_CREDIT)) {
-    //     resultPrinter.printResult(
-    //         "Amount", amountText, false,
-    //         "Session limit of $1000.00 exceeded for this account.",
-    //         outcomeLabelFor("addcredit"));
-    //     return;
-    // }
+    if (session.getCreditAddedCents(targetName) + toCents(amount) > toCents(MAX_SESSION_CREDIT)) {
+        resultPrinter.printResult(
+            "Amount", amountText, false,
+            "Session limit of $1000.00 exceeded for this account.",
+            outcomeLabelFor("addcredit"));
+        return;
+    }
 
     // an account balance can never go over 999,999.00.
     if (toCents(target->balance) + toCents(amount) > toCents(MAX_CREDIT)) {
@@ -993,9 +981,9 @@ void TransactionHandler::handleAddCredit() {
     // Apply the change.
     userAccounts.updateBalance(targetName, newCredit);
 
-    // PLACEHOLDER: needs Session::recordCreditAdded
-    // session.recordCreditAdded(targetName, toCents(amount));
+    session.recordCreditAdded(targetName, toCents(amount));
 
+    // saves this information to the daily transaction file (code 06).
     transactionLog.recordAddCredit(targetName, target->permissions, amount);
 
     resultPrinter.printResult(
@@ -1047,7 +1035,6 @@ void TransactionHandler::handleListAccounts() {
     std::string lines;
     std::size_t count = 0;
     for (const User& user : users) {
-        // if (session.isDeleted(user.username)) { continue; }   // needs Session additions
         lines += "\nAccount: " + user.username +
                  " | Type: " + typeNameFor(user.permissions) +
                  " | Credit: $" + formatMoney(user.balance);

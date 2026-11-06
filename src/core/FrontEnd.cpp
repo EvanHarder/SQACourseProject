@@ -19,6 +19,7 @@ FrontEnd::FrontEnd(const std::string& accountsFilePath, const std::string& avail
     : reader(inputReader), printer(std::cout), session(), accounts(accountsFilePath), games(availableGamesFilePath), collection(gameCollectionFilePath), log(dailyTransactionFilePath), handler(inputReader, printer, session, accounts, games, collection, log) {}
 
 // Reads one "transaction:" line at a time and hands the code to the handler.
+// Field lines left over from a rejected transaction are skipped until the next transaction.
 void FrontEnd::run() {
     std::string code;
     while (true) {
@@ -27,7 +28,11 @@ void FrontEnd::run() {
             break;
         }
         if (status == ReadStatus::BadFormat) {
-            printer.printResult("Line", code, false, "Invalid input format.", ACCEPTED_OUTCOME);
+            // A leftover field of a rejected transaction (e.g. "username: admin01") is skipped;
+            // any other line is reported.
+            if (!InputReader::isFieldLine(code)) {
+                printer.printResult("Line", code, false, "Invalid input format.", ACCEPTED_OUTCOME);
+            }
             continue;
         }
         handler.handleTransaction(code);

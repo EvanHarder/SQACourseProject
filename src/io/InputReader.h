@@ -37,6 +37,10 @@ public:
     // Returns true once the end of the input stream has been reached.
     bool atEnd() const;
 
+    // Returns true if line has the form "label: value" with a valid label, e.g. a field
+    // line such as "username: admin01" left over from a transaction that was rejected.
+    static bool isFieldLine(const std::string& line);
+
 private:
     // Removes spaces, tabs and carriage returns from both ends of text.
     static std::string trim(const std::string& text);
@@ -44,8 +48,13 @@ private:
     // Returns true if text is one or more lower-case letters (a valid label).
     static bool isValidLabel(const std::string& text);
 
-    std::istream& input;   // the stream the transaction lines are read from
-    bool reachedEnd;       // set once a read finds no more lines
+    // Gets the next line: the line put back by the previous read if there is one, otherwise a new line from the stream.
+    bool nextLine(std::string& line);
+
+    std::istream& input;      // the stream the transaction lines are read from
+    bool reachedEnd;          // set once a read finds no more lines
+    bool hasPendingLine;      // true when a "transaction:" line was put back to be read again
+    std::string pendingLine;  // the line that was put back
 };
 
 #endif
