@@ -24,6 +24,7 @@ namespace {
     const double MAX_GAME_PRICE      = 999.99;     // highest price for a game
     const double MAX_CREDIT          = 999999.00;  // highest account balance
     const double MAX_SESSION_CREDIT  = 1000.00;    // most addable per account per session
+    const std::size_t MIN_PASSWORD_LENGTH = 8;
 
     // Converts what the admin typed into the two-letter type code.
     // Only the exact codes are accepted: "fs" and "full-standard" are invalid.
@@ -55,7 +56,21 @@ namespace {
                code == "create"    || code == "delete"    ||
                code == "sell"      || code == "buy"       ||
                code == "refund"    || code == "addcredit" ||
-               code == "list"      || code == "listaccounts";
+               code == "list"      || code == "listaccounts" ||
+               code == "search";
+    }
+
+    // An email needs one '@' with text before it, a '.' inside the part after it, and no spaces.
+    bool isValidEmail(const std::string& email) {
+        std::size_t at = email.find('@');
+        if (at == std::string::npos || at == 0 || email.find('@', at + 1) != std::string::npos) {
+            return false;
+        }
+        if (email.find(' ') != std::string::npos) {
+            return false;
+        }
+        std::size_t dot = email.find('.', at + 1);
+        return dot != std::string::npos && dot > at + 1 && dot + 1 < email.size();
     }
 
     // Converts price text such as "15" or "15.00" into a number.
@@ -99,6 +114,22 @@ namespace {
         return static_cast<long long>(std::llround(dollars * 100.0));
     }
 
+    // Returns text in lower case, so searches ignore case.
+    std::string toLower(const std::string& text) {
+        std::string lower = text;
+        for (char& character : lower) {
+            if (character >= 'A' && character <= 'Z') {
+                character = static_cast<char>(character - 'A' + 'a');
+            }
+        }
+        return lower;
+    }
+
+    // True if text contains query, ignoring case.
+    bool containsIgnoringCase(const std::string& text, const std::string& query) {
+        return toLower(text).find(toLower(query)) != std::string::npos;
+    }
+
     // Formats a dollar amount with two decimals, e.g. 600 -> "600.00".
     std::string formatMoney(double amount) {
         return FormatUtils::moneyToText(amount, 0);
@@ -116,12 +147,13 @@ namespace {
         if (code == "addcredit")    return "Credit Added";
         if (code == "list")         return "Games Listed";
         if (code == "listaccounts") return "Accounts Listed";
+        if (code == "search")       return "Search Completed";
         return "Transaction Accepted";
     }
 
 }
 
-// Constructor
+// Stores the shared reader, printer and session, and the four data objects.
 TransactionHandler::TransactionHandler(
     InputReader& reader,
     ResultPrinter& printer,
@@ -197,6 +229,9 @@ void TransactionHandler::handleTransaction(
     else if (transactionCode == "listaccounts") {
         handleListAccounts();
     }
+    else if (transactionCode == "search") {
+        handleSearch();
+    }
 }
 
 // Prints a temporary failure result until a transaction is able to have its full implementation.
@@ -211,6 +246,7 @@ void TransactionHandler::printNotImplemented(
         outcomeLabelFor(transactionCode));
 }
 
+// Admins may run everything; others are refused privileged transactions, BS users cannot sell and SS users cannot buy.
 bool TransactionHandler::isPermitted(const std::string& transactionCode) const {
 
     // Admin logins accept every transaction.
@@ -305,6 +341,7 @@ void TransactionHandler::handleLogin() {
 
 }
 
+// Handles the logout transaction: records the end of session line, writes the daily transaction file and ends the session.
 void TransactionHandler::handleLogout() {
     if (!session.isLoggedIn()) {
         resultPrinter.printResult(
@@ -335,6 +372,7 @@ void TransactionHandler::handleLogout() {
         outcomeLabelFor("logout"));
 }
 
+// Handles the create transaction (admin only): reads and checks the username, email, password and user type, then records the new user.
 void TransactionHandler::handleCreate() {
 
     if (!session.isAdmin()) {
@@ -380,7 +418,7 @@ void TransactionHandler::handleCreate() {
 
     // the new username must differ from every current user.
     // a username deleted this session cannot be recreated until the next session.
-    if (userAccounts.findUser(newUsername) != nullptr || session.isDeleted(newUsername)) {
+    if (userAccounts.findUser(newUsername) != nullptr || session.isDeleted(newUsername) || session.isNewUser(newUsername)) {
         resultPrinter.printResult(
             "Username", newUsername, false,
             "Username already exists.", outcomeLabelFor("create"));
@@ -405,6 +443,13 @@ void TransactionHandler::handleCreate() {
         return;
     }
 
+    if (!isValidEmail(email)) {
+        resultPrinter.printResult(
+            "Username", newUsername, false,
+            "Invalid email address.", outcomeLabelFor("create"));
+        return;
+    }
+
     // ask for the password.
     std::string password;
     status = inputReader.readField("password", password);
@@ -420,6 +465,13 @@ void TransactionHandler::handleCreate() {
         resultPrinter.printResult(
             "Transaction", "create", false,
             "Invalid input format.", outcomeLabelFor("create"));
+        return;
+    }
+
+    if (password.size() < MIN_PASSWORD_LENGTH) {
+        resultPrinter.printResult(
+            "Username", newUsername, false,
+            "Password must be at least 8 characters.", outcomeLabelFor("create"));
         return;
     }
 
@@ -450,8 +502,11 @@ void TransactionHandler::handleCreate() {
         return;
     }
 
-    // add the new account, then save it for the daily transaction file (code 01).
-    userAccounts.addUser(newUsername, typeCode, 0.0);
+    // The new account is created by the Back End overnight, so it cannot be used until the
+    // next session; the session remembers the name so it cannot be created twice.
+    session.markNewUser(newUsername);
+
+    // save this information to the daily transaction file (code 01).
     transactionLog.recordCreate(newUsername, typeCode, 0.0);
 
     resultPrinter.printResult(
@@ -461,6 +516,7 @@ void TransactionHandler::handleCreate() {
 
 }
 
+// Handles the delete transaction (admin only): removes the user and their games for sale, and blocks them for the rest of the session.
 void TransactionHandler::handleDelete() {
 
     if (!session.isAdmin()) {
@@ -523,6 +579,7 @@ void TransactionHandler::handleDelete() {
         outcomeLabelFor("delete"));
 }
 
+// Handles the sell transaction: reads and checks the game name and price, then records the game for sale from the next session.
 void TransactionHandler::handleSell() {
 
     // semi-privileged, accepted for every account type except buy-standard (BS). The dispatcher already checks this
@@ -567,8 +624,8 @@ void TransactionHandler::handleSell() {
         return;
     }
 
-    // all games must have unique names.
-    if (availableGames.findGameByName(game) != nullptr) {
+    // all games must have unique names, including games put up for sale this session.
+    if (availableGames.findGameByName(game) != nullptr || session.isNewGame(game)) {
         resultPrinter.printResult(
             "Game", game, false,
             "Game name already exists.", outcomeLabelFor("sell"));
@@ -609,10 +666,8 @@ void TransactionHandler::handleSell() {
         return;
     }
 
-    // Apply the change: the seller is the logged-in user.
-    availableGames.addGame(game, session.getUsername(), price);
-
-    // no further transactions on a new game until the next session.
+    // The game is added to the available games by the Back End overnight, so no further
+    // transactions are accepted on it until the next session; the session remembers it.
     session.markNewGame(game);
 
     // saves this information to the daily transaction file (code 03).
@@ -624,6 +679,7 @@ void TransactionHandler::handleSell() {
         outcomeLabelFor("sell"));
 }
 
+// Handles the buy transaction: reads and checks the game and seller, moves the credit and adds the game to the buyer's collection.
 void TransactionHandler::handleBuy() {
 
     // semi-privileged, accepted for every account type except
@@ -758,6 +814,7 @@ void TransactionHandler::handleBuy() {
 }
 
 
+// Handles the refund transaction (admin only): reads and checks the buyer, seller and amount, then moves the credit from seller to buyer.
 void TransactionHandler::handleRefund() {
 
     if (!session.isAdmin()) {
@@ -994,6 +1051,7 @@ void TransactionHandler::handleAddCredit() {
 }
 
 
+// Handles the list transaction: prints every game currently for sale.
 void TransactionHandler::handleList() {
 
     const std::vector<Game>& games = availableGames.getAllGames();
@@ -1046,4 +1104,72 @@ void TransactionHandler::handleListAccounts() {
 
     resultPrinter.printResult(
         "Transaction", "listaccounts", true, message, outcomeLabelFor("listaccounts"));
+}
+
+// Handles the search transaction: lists every game and user whose name contains the query (ignoring case).
+// Non-admin users do not see admin accounts unless that admin is selling at least one game.
+void TransactionHandler::handleSearch() {
+
+    std::string query;
+    ReadStatus status = inputReader.readField("query", query);
+
+    if (status == ReadStatus::EndOfInput) {
+        resultPrinter.printResult(
+            "Transaction", "search", false,
+            "Input ended before a query was given.", outcomeLabelFor("search"));
+        return;
+    }
+
+    if (status == ReadStatus::BadFormat) {
+        resultPrinter.printResult(
+            "Transaction", "search", false,
+            "Invalid input format.", outcomeLabelFor("search"));
+        return;
+    }
+
+    if (query.empty()) {
+        resultPrinter.printResult(
+            "Query", shownValue(query), false,
+            "Query cannot be blank.", outcomeLabelFor("search"));
+        return;
+    }
+
+    const std::vector<Game>& games = availableGames.getAllGames();
+
+    std::string gameLines;
+    std::size_t gameCount = 0;
+    for (const Game& game : games) {
+        if (containsIgnoringCase(game.name, query)) {
+            gameLines += "\nGame: " + game.name + " | Seller: " + game.seller + " | Price: $" + formatMoney(game.price);
+            gameCount++;
+        }
+    }
+
+    std::string userLines;
+    std::size_t userCount = 0;
+    for (const User& user : userAccounts.getUsers()) {
+        if (!containsIgnoringCase(user.username, query)) {
+            continue;
+        }
+        // a non-admin only sees an admin account if that admin is selling a game.
+        if (!session.isAdmin() && user.permissions == "AA") {
+            bool isSelling = false;
+            for (const Game& game : games) {
+                if (game.seller == user.username) {
+                    isSelling = true;
+                    break;
+                }
+            }
+            if (!isSelling) {
+                continue;
+            }
+        }
+        userLines += "\nUser: " + user.username;
+        userCount++;
+    }
+
+    std::string message = std::to_string(gameCount) + (gameCount == 1 ? " game" : " games") + " and " +
+        std::to_string(userCount) + (userCount == 1 ? " user" : " users") + " found." + gameLines + userLines;
+
+    resultPrinter.printResult("Query", query, true, message, outcomeLabelFor("search"));
 }
