@@ -1,0 +1,20 @@
+Username: fullUser
+Status: SUCCESS
+Message: Welcome fullUser. Account type: full-standard. Credit: $2000.00.
+Logged In: Yes
+
+Query: user
+Status: SUCCESS
+Message: 0 games and 6 users found.
+User: fullUser
+User: buyUser
+User: sellUser
+User: richUser
+User: poorUser
+User: emptyUser
+Search Completed: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

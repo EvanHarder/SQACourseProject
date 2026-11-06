@@ -1,0 +1,14 @@
+Username: buyUser
+Status: SUCCESS
+Message: Welcome buyUser. Account type: buy-standard. Credit: $500.00.
+Logged In: Yes
+
+Game: Hollow Knight
+Status: SUCCESS
+Message: Purchased Hollow Knight from sellUser for $20.00. Remaining credit: $480.00.
+Game Purchased: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

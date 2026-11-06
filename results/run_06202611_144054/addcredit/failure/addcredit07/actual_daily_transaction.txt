@@ -1,0 +1,2 @@
+06 fullUser        FS 000600.00
+00 fullUser        FS 002600.00

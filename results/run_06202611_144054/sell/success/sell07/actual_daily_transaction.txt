@@ -1,0 +1,2 @@
+03 ABCDEFGHIJKLMNOPQRSTUVWXY fullUser        010.00
+00 fullUser        FS 002000.00

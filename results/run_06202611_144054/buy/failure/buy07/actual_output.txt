@@ -1,0 +1,14 @@
+Username: poorUser
+Status: SUCCESS
+Message: Welcome poorUser. Account type: full-standard. Credit: $5.00.
+Logged In: Yes
+
+Game: Celeste
+Status: FAILURE
+Message: Insufficient credit.
+Game Purchased: No
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes

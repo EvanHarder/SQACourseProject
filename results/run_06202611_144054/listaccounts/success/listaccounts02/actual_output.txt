@@ -1,0 +1,28 @@
+Username: admin01
+Status: SUCCESS
+Message: Welcome admin01. Account type: admin. Credit: $5000.00.
+Logged In: Yes
+
+Username: poorUser
+Status: SUCCESS
+Message: User poorUser deleted. Their games are no longer for sale.
+Account Deleted: Yes
+
+Transaction: listaccounts
+Status: SUCCESS
+Message: 9 accounts active.
+Account: admin01 | Type: admin | Credit: $5000.00
+Account: admin02 | Type: admin | Credit: $1000.00
+Account: fullUser | Type: full-standard | Credit: $2000.00
+Account: buyUser | Type: buy-standard | Credit: $500.00
+Account: sellUser | Type: sell-standard | Credit: $100.00
+Account: richUser | Type: full-standard | Credit: $999500.00
+Account: emptyUser | Type: buy-standard | Credit: $0.00
+Account: maxName15chars1 | Type: full-standard | Credit: $300.00
+Account: Jane Doe | Type: full-standard | Credit: $250.00
+Accounts Listed: Yes
+
+Transaction: logout
+Status: SUCCESS
+Message: Logout successful. Session transactions saved.
+Logged Out: Yes
