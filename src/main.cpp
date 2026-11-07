@@ -18,6 +18,10 @@
  *       transaction: login
  *       username: admin01
  *
+ * When the input stream is typed at a keyboard (not redirected from a file), a
+ * welcome screen listing the transactions and their fields is shown first.
+ * It is never shown when input comes from a file, so test outputs are unchanged.
+ *
  * OUTPUTS
  *   - Standard output: one result block per transaction (key value, Status,
  *     Message and outcome lines)
@@ -31,9 +35,16 @@
  *   ./frontend TestCases/data/current_user_accounts.txt TestCases/data/available_games.txt TestCases/data/game_collection.txt daily_transaction.txt < TestCases/login/success/login01/input.txt
  */
 
+#include <cstdio>
 #include <fstream>
 #include <iostream>
 #include <string>
+
+#ifdef _WIN32
+#include <io.h>
+#else
+#include <unistd.h>
+#endif
 
 #include "core/FrontEnd.h"
 #include "io/InputReader.h"
@@ -49,6 +60,45 @@ namespace {
     // Prints how to run the program to standard error.
     void printUsage(const std::string& programName) {
         std::cerr << "Usage: " << programName << " <accounts_file> <available_games_file> <game_collection_file> <daily_transaction_file> < input.txt" << std::endl;
+    }
+
+    // Returns true when standard input is a keyboard rather than a redirected file or pipe.
+    bool inputIsKeyboard() {
+#ifdef _WIN32
+        return _isatty(_fileno(stdin)) != 0;
+#else
+        return isatty(fileno(stdin)) != 0;
+#endif
+    }
+
+    // Prints the welcome screen: how to enter transactions and the fields each one asks for.
+    void printWelcomeScreen() {
+        std::cout
+            << "==============================================================================\n"
+            << "  Digital Games Distribution System\n"
+            << "==============================================================================\n"
+            << "Type one \"label: value\" line at a time. Start by logging in:\n"
+            << "    transaction: login\n"
+            << "    username: admin01\n"
+            << "\n"
+            << "  Transaction    Fields it asks for (in this order)               Who can use it\n"
+            << "  -------------  -----------------------------------------------  ---------------\n"
+            << "  login          username                                         anyone\n"
+            << "  logout         (none) - writes the daily transaction file       logged-in user\n"
+            << "  create         username, email, password, type (AA/FS/BS/SS)    admin\n"
+            << "  delete         username                                         admin\n"
+            << "  sell           game, price                                      all but BS\n"
+            << "  buy            game, seller                                     all but SS\n"
+            << "  refund         buyer, seller, amount                            admin\n"
+            << "  addcredit      amount (admins: then username)                   logged-in user\n"
+            << "  list           (none)                                           logged-in user\n"
+            << "  listaccounts   (none)                                           admin\n"
+            << "  search         query                                            logged-in user\n"
+            << "\n"
+            << "Example:  transaction: buy   then   game: Hades   then   seller: fullUser\n"
+            << "Finish with Ctrl+Z then Enter (Windows) or Ctrl+D (Linux/Mac).\n"
+            << "==============================================================================\n"
+            << std::endl;
     }
 
     // Returns true if the file at path exists and can be opened for reading.
@@ -76,6 +126,10 @@ int main(int argc, char* argv[]) {
             std::cerr << "Error: cannot open input file " << inputFile << std::endl;
             return 1;
         }
+    }
+
+    if (inputIsKeyboard()) {
+        printWelcomeScreen();
     }
 
     InputReader inputReader(std::cin);
