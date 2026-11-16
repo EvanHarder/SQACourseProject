@@ -1,11 +1,17 @@
 # compiled Front End
-frontend
-frontend.exe
+/frontend
+/frontend.exe
 *.o
 *.d
 # test run output (results/results.txt stays tracked)
 results/run_*/
 results/latest
 /daily_transaction.txt
-/frontend
-/frontend.exe
+# Front End A build files and test runs
+frontend/phase2/build/
+frontend/phase2/frontend
+frontend/phase2/frontend.exe
+frontend/phase3/outputs/
+# test run output of the old Front End
+old_frontend/results/run_*/
+old_frontend/results/latest
