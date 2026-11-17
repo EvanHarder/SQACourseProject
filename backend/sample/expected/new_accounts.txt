@@ -1,0 +1,9 @@
+admin           AA 001000.00
+fulluser        FS 000500.00
+buyuser         BS 000785.00
+selluser        SS 000215.00
+pooruser        FS 000105.00
+richuser        FS 999000.00
+manager         AM 000500.00
+newuser         FS 000000.00
+END                000000.00

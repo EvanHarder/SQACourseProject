@@ -1,0 +1,4 @@
+Hades                      buyuser        
+Portal 2                   fulluser       
+Stardew Valley             buyuser        
+END                                       
