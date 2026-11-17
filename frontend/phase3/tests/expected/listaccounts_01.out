@@ -1,0 +1,14 @@
+Enter command:
+Enter username:
+Login successful. Welcome admin (AA).
+Enter command:
+Active accounts:
+admin - AA - 1000.00
+fulluser - FS - 500.00
+buyuser - BS - 500.00
+selluser - SS - 500.00
+pooruser - FS - 5.00
+richuser - FS - 999000.00
+abcdefghijklmno - FS - 100.00
+Enter command:
+Logout successful.

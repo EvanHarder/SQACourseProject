@@ -1,0 +1,9 @@
+Enter command:
+Enter username:
+Login successful. Welcome admin (AA).
+Enter command:
+Enter buyer username:
+Enter seller username:
+Error: buyer and seller must be different.
+Enter command:
+Logout successful.

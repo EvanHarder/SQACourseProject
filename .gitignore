@@ -1,5 +1,6 @@
-# compiled Front End
-/frontend
+# compiled old Front End (built inside old_frontend now)
+old_frontend/frontend
+old_frontend/frontend.exe
 /frontend.exe
 *.o
 *.d

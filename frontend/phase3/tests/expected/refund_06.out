@@ -1,0 +1,14 @@
+Enter command:
+Enter username:
+Login successful. Welcome admin (AA).
+Enter command:
+Enter amount:
+Enter username:
+Added 999.99 credit to richuser.
+Enter command:
+Enter buyer username:
+Enter seller username:
+Enter amount:
+Error: credit limit exceeded.
+Enter command:
+Logout successful.

@@ -1,0 +1,9 @@
+Enter command:
+Enter username:
+Login successful. Welcome manager (AM).
+Enter command:
+Enter username:
+Enter user type:
+Error: account managers cannot create admins.
+Enter command:
+Logout successful.

@@ -1,0 +1,13 @@
+Enter command:
+Enter username:
+Login successful. Welcome fulluser (FS).
+Enter command:
+Enter game name:
+Enter seller username:
+Purchase successful. Stardew Valley bought from selluser for 15.00.
+Enter command:
+Enter game name:
+Enter seller username:
+Error: game already owned.
+Enter command:
+Logout successful.

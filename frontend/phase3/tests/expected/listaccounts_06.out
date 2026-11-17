@@ -1,0 +1,25 @@
+Enter command:
+Enter username:
+Login successful. Welcome admin (AA).
+Enter command:
+Enter username:
+Enter user type:
+User newuser created.
+Enter command:
+Enter username:
+User buyuser deleted.
+Enter command:
+Enter amount:
+Enter username:
+Added 100.00 credit to fulluser.
+Enter command:
+Active accounts:
+admin - AA - 1000.00
+fulluser - FS - 600.00
+selluser - SS - 500.00
+pooruser - FS - 5.00
+richuser - FS - 999000.00
+abcdefghijklmno - FS - 100.00
+newuser - BS - 0.00
+Enter command:
+Logout successful.

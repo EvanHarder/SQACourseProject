@@ -1,0 +1,12 @@
+Enter command:
+Enter username:
+Login successful. Welcome admin (AA).
+Enter command:
+Enter username:
+Enter user type:
+User newuser created.
+Enter command:
+Enter username:
+Error: username already exists.
+Enter command:
+Logout successful.

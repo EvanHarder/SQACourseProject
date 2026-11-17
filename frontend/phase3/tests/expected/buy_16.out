@@ -1,0 +1,13 @@
+Enter command:
+Enter username:
+Login successful. Welcome admin (AA).
+Enter command:
+Enter game name:
+Enter seller username:
+Purchase successful. Rich Game bought from richuser for 600.00.
+Enter command:
+Enter game name:
+Enter seller username:
+Error: insufficient credit.
+Enter command:
+Logout successful.

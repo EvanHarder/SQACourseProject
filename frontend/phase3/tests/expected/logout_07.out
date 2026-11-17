@@ -1,0 +1,15 @@
+Enter command:
+Enter username:
+Login successful. Welcome fulluser (FS).
+Enter command:
+Enter game name:
+Enter seller username:
+Error: insufficient credit.
+Enter command:
+Enter amount:
+Added 100.00 credit to fulluser.
+Enter command:
+Enter game name:
+Error: game name already exists.
+Enter command:
+Logout successful.

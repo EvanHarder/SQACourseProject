@@ -1,0 +1,5 @@
+Stardew Valley             selluser        015.00
+Hades                      fulluser        025.00
+Pricey Game                selluser        999.99
+Rich Game                  richuser        600.00
+END                                        000.00

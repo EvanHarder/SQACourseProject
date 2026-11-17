@@ -1,0 +1,4 @@
+Stardew Valley             selluser        015.00
+Hades                      fulluser        025.00
+Admin Shop Game            shopadmin       030.00
+END                                        000.00
