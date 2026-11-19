@@ -42,8 +42,9 @@ class BackEnd:
         processor.process_all(transactions)
 
         # 3. Write the new files
-        AccountsFile.write(self.new_accounts_path, processor.users)
-        GamesFile.write(self.new_games_path, processor.games)
+        #    (the processor keeps users and games as dictionaries, so write their values)
+        AccountsFile.write(self.new_accounts_path, processor.users.values())
+        GamesFile.write(self.new_games_path, processor.games.values())
         CollectionFile.write(self.new_collection_path, processor.collection)
 
 

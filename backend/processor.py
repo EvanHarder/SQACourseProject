@@ -1,13 +1,15 @@
 # processor.py
 
-# from models import User, Game, OwnedGame
+from models import User, Game, OwnedGame
 
 class TransactionProcessor:
     # Applies transactions to the users, games and collection
     def __init__(self, users, games, collection, error_log):
         # Store the data to change and the error log to report to.
-        self.users = users
-        self.games = games
+        # data_files gives lists, so users and games are kept as dictionaries
+        # (username -> User, game name -> Game) to find them quickly by name.
+        self.users = {user.username: user for user in users}
+        self.games = {game.name: game for game in games}
         self.collection = collection
         self.error_log = error_log
 
@@ -33,7 +35,7 @@ class TransactionProcessor:
             self.error_log.constraint("username already exists.")
             return
 
-        # self.users[t.username] = User(t.username, t.user_type, t.credit_cents)
+        self.users[t.username] = User(t.username, t.user_type, t.credit_cents)
 
     def apply_delete(self, t):
         # Remove the user, their games for sale and their collection
@@ -54,7 +56,7 @@ class TransactionProcessor:
     def apply_sell(self, t):
         # Add games to list 
         seller = t.seller if t.seller else t.username
-        # self.games[t.game_name] = Game(t.game_name, seller, t.price_cents)
+        self.games[t.game_name] = Game(t.game_name, seller, t.price_cents)
 
     def apply_buy(self, t):
         # Move credit from buyer to seller and add the game to the buyer's collection
@@ -71,7 +73,7 @@ class TransactionProcessor:
 
         buyer.remove_credit(t.price_cents)
         seller.add_credit(t.price_cents)
-        # self.collection.append(OwnedGame(t.game_name, t.buyer))
+        self.collection.append(OwnedGame(t.game_name, t.buyer))
 
     def apply_refund(self, t):
         # Move credit from seller to buyer
