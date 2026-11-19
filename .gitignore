@@ -16,3 +16,6 @@ frontend/phase3/outputs/
 # test run output of the old Front End
 old_frontend/results/run_*/
 old_frontend/results/latest
+# Python cache
+__pycache__/
+*.pyc
