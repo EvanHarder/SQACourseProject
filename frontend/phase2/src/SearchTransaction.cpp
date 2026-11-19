@@ -33,7 +33,8 @@ void SearchTransaction::execute(Session& session, Console& console) {
         }
     }
 
-    bool viewerIsAdmin = session.getCurrentUser().isAdmin();
+    // Account managers have admin privileges, so they see admins too
+    bool viewerIsAdmin = session.getCurrentUser().hasAdminPrivileges();
     std::vector<std::string> matchingUsers;
     for (const User& user : session.getUsers()) {
         if (!containsIgnoringCase(user.getName(), query)) {

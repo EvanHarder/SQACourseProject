@@ -28,14 +28,26 @@ bool User::isAdmin() const {
     return type == Config::USER_TYPE_ADMIN;
 }
 
-// Returns true if this user may buy games: everyone except sell-standard (SS).
-bool User::canBuy() const {
-    return type != Config::USER_TYPE_SELL_STANDARD;
+// Returns true if this user is an account manager (AM).
+bool User::isAccountManager() const {
+    return type == Config::USER_TYPE_ACCOUNT_MANAGER;
 }
 
-// Returns true if this user may sell games: everyone except buy-standard (BS).
+// Returns true if this user may run privileged transactions: admins and account managers.
+bool User::hasAdminPrivileges() const {
+    return isAdmin() || isAccountManager();
+}
+
+// Returns true if this user may buy games: everyone except sell-standard (SS)
+// and account managers (AM).
+bool User::canBuy() const {
+    return type != Config::USER_TYPE_SELL_STANDARD && !isAccountManager();
+}
+
+// Returns true if this user may sell games: everyone except buy-standard (BS)
+// and account managers (AM).
 bool User::canSell() const {
-    return type != Config::USER_TYPE_BUY_STANDARD;
+    return type != Config::USER_TYPE_BUY_STANDARD && !isAccountManager();
 }
 
 // Adds the given amount (in cents) to this user's credit.
@@ -50,10 +62,11 @@ void User::removeCredit(Cents amount) {
     credit -= amount;
 }
 
-// Returns true if the text is exactly one of the four user type codes.
+// Returns true if the text is exactly one of the five user type codes.
 bool User::isValidType(const std::string& type) {
     return type == Config::USER_TYPE_ADMIN
         || type == Config::USER_TYPE_FULL_STANDARD
         || type == Config::USER_TYPE_BUY_STANDARD
-        || type == Config::USER_TYPE_SELL_STANDARD;
+        || type == Config::USER_TYPE_SELL_STANDARD
+        || type == Config::USER_TYPE_ACCOUNT_MANAGER;
 }

@@ -5,7 +5,7 @@
 
 #include "PrivilegedTransaction.h"
 
-// Returns true only if the given user is an admin.
+// Returns true only if the given user has admin privileges (admin or account manager).
 bool PrivilegedTransaction::isAllowedFor(const User& user) const {
-    return user.isAdmin();
+    return user.hasAdminPrivileges();
 }

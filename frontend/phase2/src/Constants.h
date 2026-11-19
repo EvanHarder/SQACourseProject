@@ -31,7 +31,7 @@ namespace Config {
 
     const std::size_t TRANSACTION_CODE_WIDTH = 2;   // "00" to "06"
     const std::size_t USERNAME_WIDTH         = 15;  // left-justified, padded with spaces
-    const std::size_t USER_TYPE_WIDTH        = 2;   // "AA", "FS", "BS" or "SS"
+    const std::size_t USER_TYPE_WIDTH        = 2;   // "AA", "FS", "BS", "SS" or "AM"
     const std::size_t GAME_NAME_WIDTH        = 26;  // left-justified, padded with spaces
     const std::size_t CREDIT_WIDTH           = 9;   // e.g. 001000.00
     const std::size_t PRICE_WIDTH            = 6;   // e.g. 015.00
@@ -51,6 +51,7 @@ namespace Config {
     const std::string USER_TYPE_FULL_STANDARD = "FS";  // can buy and sell
     const std::string USER_TYPE_BUY_STANDARD  = "BS";  // can buy, cannot sell
     const std::string USER_TYPE_SELL_STANDARD = "SS";  // can sell, cannot buy
+    const std::string USER_TYPE_ACCOUNT_MANAGER = "AM"; // admin privileges, cannot buy or sell, cannot create or delete admins
 
     // ---- Daily transaction file codes ----
 

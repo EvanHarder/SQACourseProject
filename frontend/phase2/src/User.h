@@ -18,7 +18,7 @@
 
 class User {
 public:
-    // Creates a user with the given username, type code (AA/FS/BS/SS) and credit in cents.
+    // Creates a user with the given username, type code (AA/FS/BS/SS/AM) and credit in cents.
     User(const std::string& name, const std::string& type, Cents credit);
 
     // Returns the username.
@@ -30,13 +30,21 @@ public:
     // Returns the available credit in cents.
     Cents getCredit() const;
 
-    // Returns true if this user is an admin (AA), who may run privileged transactions.
+    // Returns true if this user is an admin (AA). Only used where AA itself matters,
+    // such as an account manager not being allowed to create or delete admins.
     bool isAdmin() const;
 
-    // Returns true if this user may buy games (every type except sell-standard).
+    // Returns true if this user is an account manager (AM).
+    bool isAccountManager() const;
+
+    // Returns true if this user may run privileged transactions: admins (AA)
+    // and account managers (AM).
+    bool hasAdminPrivileges() const;
+
+    // Returns true if this user may buy games (every type except sell-standard and account manager).
     bool canBuy() const;
 
-    // Returns true if this user may sell games (every type except buy-standard).
+    // Returns true if this user may sell games (every type except buy-standard and account manager).
     bool canSell() const;
 
     // Adds the given amount (in cents) to this user's credit.
@@ -45,7 +53,7 @@ public:
     // Subtracts the given amount (in cents) from this user's credit.
     void removeCredit(Cents amount);
 
-    // Returns true if the text is one of the four user type codes (AA, FS, BS, SS).
+    // Returns true if the text is one of the five user type codes (AA, FS, BS, SS, AM).
     static bool isValidType(const std::string& type);
 
 private:

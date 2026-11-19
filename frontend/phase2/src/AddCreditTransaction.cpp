@@ -25,9 +25,9 @@ void AddCreditTransaction::execute(Session& session, Console& console) {
         return;
     }
 
-    // An admin chooses the account; anyone else adds to their own
+    // An admin or account manager chooses the account; anyone else adds to their own
     User* account = &session.getCurrentUser();
-    if (account->isAdmin()) {
+    if (account->hasAdminPrivileges()) {
         account = readExistingUser(session, console, "Enter username:");
         if (account == nullptr) {
             return;
