@@ -19,3 +19,8 @@ old_frontend/results/latest
 # Python cache
 __pycache__/
 *.pyc
+
+# Front End A manual runs
+*.atf
+/day/
+/new_*.txt
