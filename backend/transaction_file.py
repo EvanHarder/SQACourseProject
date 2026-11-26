@@ -17,6 +17,7 @@
 #   TransactionFileReader  reads the whole file into a list of Transaction
 
 from error_log import ErrorLog
+from data_files import VALID_USER_TYPES
 
 # Transaction codes
 CODE_END_OF_SESSION = "00"
@@ -90,6 +91,10 @@ class TransactionFileReader:
         if code in (CODE_CREATE, CODE_DELETE, CODE_ADDCREDIT, CODE_END_OF_SESSION):
             username = fields.take_text(USERNAME_WIDTH, allow_blank=(code == CODE_END_OF_SESSION))
             user_type = fields.take_text(USER_TYPE_WIDTH, allow_blank=(code == CODE_END_OF_SESSION))
+            # Phase 5 fix (TF-16): reject unknown user types here, so a bad 01, 02 or 06
+            # line is reported on its own line instead of crashing when the new files are written
+            if code != CODE_END_OF_SESSION and user_type not in VALID_USER_TYPES:
+                fields.fail("bad user type '" + user_type + "'")
             credit = fields.take_money(CREDIT_WIDTH)
             fields.finish()
             return Transaction(code, username=username, user_type=user_type, credit_cents=credit)
