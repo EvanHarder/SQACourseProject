@@ -1,0 +1,4 @@
+# Coverage settings for the Back End unit tests (pytest --cov, or PyCharm's Run with Coverage)
+[run]
+branch = True
+omit = */tests/*

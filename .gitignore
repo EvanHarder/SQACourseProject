@@ -24,3 +24,8 @@ __pycache__/
 *.atf
 /day/
 /new_*.txt
+
+# pytest and coverage output
+.pytest_cache/
+.coverage
+htmlcov/
